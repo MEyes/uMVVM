@@ -9,9 +9,19 @@
         <para>An enumeration of the options that can be set on a network channel.</para>
       </summary>
     </member>
+    <member name="F:UnityEngine.Networking.ChannelOption.AllowFragmentation">
+      <summary>
+        <para>The option to allow packet fragmentation for a channel.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEngine.Networking.ChannelOption.MaxPacketSize">
+      <summary>
+        <para>The option to set the maximum packet size allowed for a channel.</para>
+      </summary>
+    </member>
     <member name="F:UnityEngine.Networking.ChannelOption.MaxPendingBuffers">
       <summary>
-        <para>The option to set the numbet of pending buffers for a channel.</para>
+        <para>The option to set the number of pending buffers for a channel.</para>
       </summary>
     </member>
     <member name="T:UnityEngine.Networking.Channels">
@@ -51,7 +61,7 @@
     </member>
     <member name="T:UnityEngine.Networking.ClientScene">
       <summary>
-        <para>A client manager which contains non-instance centrict client information and functions.</para>
+        <para>A client manager which contains static client information and functions.</para>
       </summary>
     </member>
     <member name="P:UnityEngine.Networking.ClientScene.localPlayers">
@@ -66,7 +76,7 @@
     </member>
     <member name="P:UnityEngine.Networking.ClientScene.prefabs">
       <summary>
-        <para>This is a dictionary of the prefabs that are registered on the client.</para>
+        <para>This is a dictionary of the prefabs that are registered on the client with ClientScene.RegisterPrefab().</para>
       </summary>
     </member>
     <member name="P:UnityEngine.Networking.ClientScene.ready">
@@ -76,7 +86,7 @@
     </member>
     <member name="P:UnityEngine.Networking.ClientScene.readyConnection">
       <summary>
-        <para>The NetworkConnection object that is currently "ready". This is the connection being used connect to the server where objects are spawned from.</para>
+        <para>The NetworkConnection object that is currently "ready". This is the connection to the server where objects are spawned from.</para>
       </summary>
     </member>
     <member name="P:UnityEngine.Networking.ClientScene.reconnectId">
@@ -91,7 +101,7 @@
     </member>
     <member name="M:UnityEngine.Networking.ClientScene.AddPlayer(UnityEngine.Networking.NetworkConnection,System.Int16,UnityEngine.Networking.MessageBase)">
       <summary>
-        <para>This adds a player object for this client. This causes an AddPlayer message to be sent to the server, and NetworkManager.OnServerAddPlayer will be called. If an extra message was passed to AddPlayer, then OnServerAddPlayer will be called with a NetworkReader that contains the contents of the message.</para>
+        <para>This adds a player GameObject for this client. This causes an AddPlayer message to be sent to the server, and NetworkManager.OnServerAddPlayer is called. If an extra message was passed to AddPlayer, then OnServerAddPlayer will be called with a NetworkReader that contains the contents of the message.</para>
       </summary>
       <param name="readyConn">The connection to become ready for this client.</param>
       <param name="playerControllerId">The local player ID number.</param>
@@ -102,7 +112,7 @@
     </member>
     <member name="M:UnityEngine.Networking.ClientScene.AddPlayer(UnityEngine.Networking.NetworkConnection,System.Int16)">
       <summary>
-        <para>This adds a player object for this client. This causes an AddPlayer message to be sent to the server, and NetworkManager.OnServerAddPlayer will be called. If an extra message was passed to AddPlayer, then OnServerAddPlayer will be called with a NetworkReader that contains the contents of the message.</para>
+        <para>This adds a player GameObject for this client. This causes an AddPlayer message to be sent to the server, and NetworkManager.OnServerAddPlayer is called. If an extra message was passed to AddPlayer, then OnServerAddPlayer will be called with a NetworkReader that contains the contents of the message.</para>
       </summary>
       <param name="readyConn">The connection to become ready for this client.</param>
       <param name="playerControllerId">The local player ID number.</param>
@@ -113,7 +123,7 @@
     </member>
     <member name="M:UnityEngine.Networking.ClientScene.AddPlayer(System.Int16)">
       <summary>
-        <para>This adds a player object for this client. This causes an AddPlayer message to be sent to the server, and NetworkManager.OnServerAddPlayer will be called. If an extra message was passed to AddPlayer, then OnServerAddPlayer will be called with a NetworkReader that contains the contents of the message.</para>
+        <para>This adds a player GameObject for this client. This causes an AddPlayer message to be sent to the server, and NetworkManager.OnServerAddPlayer is called. If an extra message was passed to AddPlayer, then OnServerAddPlayer will be called with a NetworkReader that contains the contents of the message.</para>
       </summary>
       <param name="readyConn">The connection to become ready for this client.</param>
       <param name="playerControllerId">The local player ID number.</param>
@@ -129,7 +139,7 @@
     </member>
     <member name="M:UnityEngine.Networking.ClientScene.ConnectLocalServer">
       <summary>
-        <para>Create and connect a local client instance to the local server.</para>
+        <para>Create and connect a local client instance to the local server. This makes the client into a "host" - a client and server in the same process.</para>
       </summary>
       <returns>
         <para>A client object for communicating with the local server.</para>
@@ -140,11 +150,11 @@
         <para>Destroys all networked objects on the client.</para>
       </summary>
     </member>
-    <member name="M:UnityEngine.Networking.ClientScene.FindLocalObject">
+    <member name="M:UnityEngine.Networking.ClientScene.FindLocalObject(UnityEngine.Networking.NetworkInstanceId)">
       <summary>
         <para>This finds the local NetworkIdentity object with the specified network Id.</para>
       </summary>
-      <param name="netId">The id of a networked object.</param>
+      <param name="netId">The id of the networked object.</param>
       <returns>
         <para>The game object that matches the netId.</para>
       </returns>
@@ -194,7 +204,7 @@
     </member>
     <member name="M:UnityEngine.Networking.ClientScene.RegisterSpawnHandler(UnityEngine.Networking.NetworkHash128,UnityEngine.Networking.SpawnDelegate,UnityEngine.Networking.UnSpawnDelegate)">
       <summary>
-        <para>This is an advanced spawning funciotn that registers a custom assetId with the UNET spawning system.</para>
+        <para>This is an advanced spawning function that registers a custom assetId with the UNET spawning system.</para>
       </summary>
       <param name="assetId">Custom assetId string.</param>
       <param name="spawnHandler">A method to use as a custom spawnhandler on clients.</param>
@@ -202,10 +212,9 @@
     </member>
     <member name="M:UnityEngine.Networking.ClientScene.RemovePlayer(System.Int16)">
       <summary>
-        <para>Remove the specified player ID from the game.</para>
+        <para>Removes the specified player ID from the game.</para>
       </summary>
-      <param name="id">The local player ID number	.</param>
-      <param name="playerControllerId"></param>
+      <param name="playerControllerId">The local playerControllerId number to be removed.</param>
       <returns>
         <para>Returns true if the player was successfully destoyed and removed.</para>
       </returns>
@@ -226,15 +235,15 @@
     </member>
     <member name="M:UnityEngine.Networking.ClientScene.UnregisterPrefab(UnityEngine.GameObject)">
       <summary>
-        <para>Removes a registered spawn prefab.</para>
+        <para>Removes a registered spawn prefab that was setup with ClientScene.RegisterPrefab.</para>
       </summary>
-      <param name="prefab"></param>
+      <param name="prefab">The prefab to be removed from registration.</param>
     </member>
     <member name="M:UnityEngine.Networking.ClientScene.UnregisterSpawnHandler(UnityEngine.Networking.NetworkHash128)">
       <summary>
-        <para>Removes a registered spawn handler function.</para>
+        <para>Removes a registered spawn handler function that was registered with ClientScene.RegisterHandler().</para>
       </summary>
-      <param name="assetId"></param>
+      <param name="assetId">The assetId for the handler to be removed for.</param>
     </member>
     <member name="T:UnityEngine.Networking.CommandAttribute">
       <summary>
@@ -401,6 +410,11 @@
     <member name="F:UnityEngine.Networking.MsgType.Error">
       <summary>
         <para>Internal networking system message for communicating an error.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEngine.Networking.MsgType.Fragment">
+      <summary>
+        <para>Internal networking system message for identifying fragmented packets.</para>
       </summary>
     </member>
     <member name="F:UnityEngine.Networking.MsgType.Highest">
@@ -631,7 +645,7 @@
     </member>
     <member name="P:UnityEngine.Networking.NetworkBehaviour.playerControllerId">
       <summary>
-        <para>The id of the player associated with thei behaviour.</para>
+        <para>The id of the player associated with the behaviour.</para>
       </summary>
     </member>
     <member name="M:UnityEngine.Networking.NetworkBehaviour.ClearAllDirtyBits">
@@ -710,7 +724,7 @@
     </member>
     <member name="M:UnityEngine.Networking.NetworkBehaviour.OnDeserialize(UnityEngine.Networking.NetworkReader,System.Boolean)">
       <summary>
-        <para>Virtual function to override to receive custom serialization data.</para>
+        <para>Virtual function to override to receive custom serialization data. The corresponding function to send serialization data is OnSerialize().</para>
       </summary>
       <param name="reader">Reader to read from the stream.</param>
       <param name="initialState">True if being sent initial state.</param>
@@ -732,7 +746,7 @@
     </member>
     <member name="M:UnityEngine.Networking.NetworkBehaviour.OnSerialize(UnityEngine.Networking.NetworkWriter,System.Boolean)">
       <summary>
-        <para>Virtual function to override to send custom serialization data.</para>
+        <para>Virtual function to override to send custom serialization data. The corresponding function to send serialization data is OnDeserialize().</para>
       </summary>
       <param name="writer">Writer to use to write to the stream.</param>
       <param name="initialState">If this is being called to send initial state.</param>
@@ -748,7 +762,7 @@
     </member>
     <member name="M:UnityEngine.Networking.NetworkBehaviour.OnStartAuthority">
       <summary>
-        <para>This is invoked on behaviours that have authority, based on context and the LocalPlayerAuthority value on the NetworkIdentity.</para>
+        <para>This is invoked on behaviours that have authority, based on context and NetworkIdentity.localPlayerAuthority.</para>
       </summary>
     </member>
     <member name="M:UnityEngine.Networking.NetworkBehaviour.OnStartClient">
@@ -763,7 +777,7 @@
     </member>
     <member name="M:UnityEngine.Networking.NetworkBehaviour.OnStartServer">
       <summary>
-        <para>Called when the server starts listening.</para>
+        <para>This is invoked for NetworkBehaviour objects when they become active on the server.</para>
       </summary>
     </member>
     <member name="M:UnityEngine.Networking.NetworkBehaviour.OnStopAuthority">
@@ -799,7 +813,7 @@
     </member>
     <member name="T:UnityEngine.Networking.NetworkClient">
       <summary>
-        <para>High level UNET client.</para>
+        <para>This is a network client class used by the networking system. It contains a NetworkConnection that is used to connection to a network server.</para>
       </summary>
     </member>
     <member name="P:UnityEngine.Networking.NetworkClient.active">
@@ -844,7 +858,7 @@
     </member>
     <member name="P:UnityEngine.Networking.NetworkClient.peers">
       <summary>
-        <para>The other network participants in the current game.</para>
+        <para>This is obsolete. This information is now in the NetworkMigrationManager.</para>
       </summary>
     </member>
     <member name="P:UnityEngine.Networking.NetworkClient.serverIp">
@@ -1048,7 +1062,7 @@
     </member>
     <member name="T:UnityEngine.Networking.NetworkConnection">
       <summary>
-        <para>High level network connection.</para>
+        <para>A High level network connection. This is used for connections from client-to-server and for connection from server-to-client.</para>
       </summary>
     </member>
     <member name="F:UnityEngine.Networking.NetworkConnection.address">
@@ -1063,7 +1077,7 @@
     </member>
     <member name="F:UnityEngine.Networking.NetworkConnection.connectionId">
       <summary>
-        <para>Unique identifier for this connection.</para>
+        <para>Unique identifier for this connection that is assigned by the transport layer.</para>
       </summary>
     </member>
     <member name="F:UnityEngine.Networking.NetworkConnection.hostId">
@@ -1079,6 +1093,11 @@
     <member name="F:UnityEngine.Networking.NetworkConnection.isReady">
       <summary>
         <para>Flag that tells if the connection has been marked as "ready" by a client calling ClientScene.Ready().</para>
+      </summary>
+    </member>
+    <member name="P:UnityEngine.Networking.NetworkConnection.lastError">
+      <summary>
+        <para>The last error associated with this connection.</para>
       </summary>
     </member>
     <member name="F:UnityEngine.Networking.NetworkConnection.lastMessageTime">
@@ -1156,13 +1175,10 @@
       <summary>
         <para>This inializes the internal data structures of a NetworkConnection object, including channel buffers.</para>
       </summary>
-      <param name="address">The host or IP connected to.</param>
-      <param name="hostId">The transport hostId for the connection.</param>
-      <param name="connectionId">The transport connectionId for the connection.</param>
       <param name="hostTopology">The topology to be used.</param>
-      <param name="networkAddress"></param>
-      <param name="networkHostId"></param>
-      <param name="networkConnectionId"></param>
+      <param name="networkAddress">The host or IP connected to.</param>
+      <param name="networkHostId">The transport hostId for the connection.</param>
+      <param name="networkConnectionId">The transport connectionId for the connection.</param>
     </member>
     <member name="M:UnityEngine.Networking.NetworkConnection.InvokeHandler(System.Int16,UnityEngine.Networking.NetworkReader,System.Int32)">
       <summary>
@@ -1509,7 +1525,7 @@
     </member>
     <member name="T:UnityEngine.Networking.NetworkIdentity">
       <summary>
-        <para>A component used to add an object to the UNET networking system.</para>
+        <para>The NetworkIdentity identifies objects across the network, between server and clients. Its primary data is a NetworkInstanceId which is allocated by the server and then set on clients. This is used in network communications to be able to lookup game objects on different machines.</para>
       </summary>
     </member>
     <member name="P:UnityEngine.Networking.NetworkIdentity.assetId">
@@ -1529,7 +1545,7 @@
     </member>
     <member name="P:UnityEngine.Networking.NetworkIdentity.connectionToClient">
       <summary>
-        <para>The UConnection associated with this NetworkIdentity. This is only valid for player objects on the server.</para>
+        <para>The connection associated with this NetworkIdentity. This is only valid for player objects on the server.</para>
       </summary>
     </member>
     <member name="P:UnityEngine.Networking.NetworkIdentity.connectionToServer">
@@ -1559,7 +1575,7 @@
     </member>
     <member name="P:UnityEngine.Networking.NetworkIdentity.localPlayerAuthority">
       <summary>
-        <para>LocalPlayerAuthority means that the client of the "owning" player has authority over their own player object.</para>
+        <para>.localPlayerAuthority means that the client of the "owning" player has authority over their own player object.</para>
       </summary>
     </member>
     <member name="P:UnityEngine.Networking.NetworkIdentity.netId">
@@ -1574,7 +1590,7 @@
     </member>
     <member name="P:UnityEngine.Networking.NetworkIdentity.playerControllerId">
       <summary>
-        <para>The id of the player associated with this object.</para>
+        <para>The id of the player associated with this GameObject.</para>
       </summary>
     </member>
     <member name="P:UnityEngine.Networking.NetworkIdentity.sceneId">
@@ -1874,6 +1890,12 @@
         <para>This is a hook that is invoked on all player objects when exiting the lobby.</para>
       </summary>
     </member>
+    <member name="M:UnityEngine.Networking.NetworkLobbyPlayer.OnClientReady(System.Boolean)">
+      <summary>
+        <para>This is a hook that is invoked on clients when a LobbyPlayer switches between ready or not ready.</para>
+      </summary>
+      <param name="readyState">Whether the player is ready or not.</param>
+    </member>
     <member name="M:UnityEngine.Networking.NetworkLobbyPlayer.RemovePlayer">
       <summary>
         <para>This removes this player from the lobby.</para>
@@ -1971,7 +1993,7 @@
     </member>
     <member name="F:UnityEngine.Networking.NetworkManager.matchMaker">
       <summary>
-        <para>The UMatch matchmaker object.</para>
+        <para>The UMatch MatchMaker object.</para>
       </summary>
     </member>
     <member name="F:UnityEngine.Networking.NetworkManager.matchName">
@@ -2156,23 +2178,43 @@
       </summary>
       <param name="conn">The network connection that the scene change message arrived on.</param>
     </member>
-    <member name="M:UnityEngine.Networking.NetworkManager.OnMatchCreate(UnityEngine.Networking.Match.CreateMatchResponse)">
+    <member name="M:UnityEngine.Networking.NetworkManager.OnDestroyMatch(System.Boolean,System.String)">
       <summary>
-        <para>This is invoked when a match has been created.</para>
+        <para>Callback that happens when a NetworkMatch.DestroyMatch request has been processed on the server.</para>
       </summary>
-      <param name="matchInfo">Info about the match that has been created.</param>
+      <param name="success">Indicates if the request succeeded.</param>
+      <param name="extendedInfo">A text description for the error if success is false.</param>
     </member>
-    <member name="M:UnityEngine.Networking.NetworkManager.OnMatchJoined(UnityEngine.Networking.Match.JoinMatchResponse)">
+    <member name="M:UnityEngine.Networking.NetworkManager.OnDropConnection(System.Boolean,System.String)">
       <summary>
-        <para>This is invoked when a match is joined.</para>
+        <para>Callback that happens when a NetworkMatch.DropConnection match request has been processed on the server.</para>
       </summary>
-      <param name="matchInfo"></param>
+      <param name="success">Indicates if the request succeeded.</param>
+      <param name="extendedInfo">A text description for the error if success is false.</param>
     </member>
-    <member name="M:UnityEngine.Networking.NetworkManager.OnMatchList(UnityEngine.Networking.Match.ListMatchResponse)">
+    <member name="M:UnityEngine.Networking.NetworkManager.OnMatchCreate(System.Boolean,System.String,UnityEngine.Networking.Match.MatchInfo)">
       <summary>
-        <para>This is invoked when a list of matches is returned from ListMatches().</para>
+        <para>Callback that happens when a NetworkMatch.CreateMatch request has been processed on the server.</para>
       </summary>
-      <param name="matchList">A list of available matches.</param>
+      <param name="success">Indicates if the request succeeded.</param>
+      <param name="extendedInfo">A text description for the error if success is false.</param>
+      <param name="matchInfo">The information about the newly created match.</param>
+    </member>
+    <member name="M:UnityEngine.Networking.NetworkManager.OnMatchJoined(System.Boolean,System.String,UnityEngine.Networking.Match.MatchInfo)">
+      <summary>
+        <para>Callback that happens when a NetworkMatch.JoinMatch request has been processed on the server.</para>
+      </summary>
+      <param name="success">Indicates if the request succeeded.</param>
+      <param name="extendedInfo">A text description for the error if success is false.</param>
+      <param name="matchInfo">The info for the newly joined match.</param>
+    </member>
+    <member name="M:UnityEngine.Networking.NetworkManager.OnMatchList(System.Boolean,System.String,System.Collections.Generic.List`1&lt;UnityEngine.Networking.Match.MatchInfoSnapshot&gt;)">
+      <summary>
+        <para>Callback that happens when a NetworkMatch.ListMatches request has been processed on the server.</para>
+      </summary>
+      <param name="success">Indicates if the request succeeded.</param>
+      <param name="extendedInfo">A text description for the error if success is false.</param>
+      <param name="matchList">A list of matches corresponding to the filters set in the initial list request.</param>
     </member>
     <member name="M:UnityEngine.Networking.NetworkManager.OnServerAddPlayer(UnityEngine.Networking.NetworkConnection,System.Int16)">
       <summary>
@@ -2220,6 +2262,13 @@
       </summary>
       <param name="sceneName">The name of the new scene.</param>
     </member>
+    <member name="M:UnityEngine.Networking.NetworkManager.OnSetMatchAttributes(System.Boolean,System.String)">
+      <summary>
+        <para>Callback that happens when a NetworkMatch.SetMatchAttributes has been processed on the server.</para>
+      </summary>
+      <param name="success">Indicates if the request succeeded.</param>
+      <param name="extendedInfo">A text description for the error if success is false.</param>
+    </member>
     <member name="M:UnityEngine.Networking.NetworkManager.OnStartClient(UnityEngine.Networking.NetworkClient)">
       <summary>
         <para>This is a hook that is invoked when the client is started.</para>
@@ -2265,11 +2314,11 @@
     </member>
     <member name="M:UnityEngine.Networking.NetworkManager.SetMatchHost(System.String,System.Int32,System.Boolean)">
       <summary>
-        <para>This set the address of the matchmaker service.</para>
+        <para>This sets the address of the MatchMaker service.</para>
       </summary>
-      <param name="newHost">Hostname of matchmaker service.</param>
-      <param name="port">Port of matchmaker service.</param>
-      <param name="https">Protocol used by matchmaker service.</param>
+      <param name="newHost">Hostname of MatchMaker service.</param>
+      <param name="port">Port of MatchMaker service.</param>
+      <param name="https">Protocol used by MatchMaker service.</param>
     </member>
     <member name="M:UnityEngine.Networking.NetworkManager.SetupMigrationManager(UnityEngine.Networking.NetworkMigrationManager)">
       <summary>
@@ -2300,7 +2349,7 @@
     </member>
     <member name="M:UnityEngine.Networking.NetworkManager.StartMatchMaker">
       <summary>
-        <para>This starts matchmaker for the NetworkManager.</para>
+        <para>This starts MatchMaker for the NetworkManager.</para>
       </summary>
     </member>
     <member name="M:UnityEngine.Networking.NetworkManager.StartServer">
@@ -2323,7 +2372,7 @@
     </member>
     <member name="M:UnityEngine.Networking.NetworkManager.StopMatchMaker">
       <summary>
-        <para>Stops the matchmaker that the NetworkManager is using.</para>
+        <para>Stops the MatchMaker that the NetworkManager is using.</para>
       </summary>
     </member>
     <member name="M:UnityEngine.Networking.NetworkManager.StopServer">
@@ -2629,7 +2678,7 @@ All of the player objects in the game are disabled when the host is lost. Then, 
     </member>
     <member name="F:UnityEngine.Networking.NetworkMigrationManager.PendingPlayerInfo.playerControllerId">
       <summary>
-        <para>The playerControllerId of the player object.</para>
+        <para>The playerControllerId of the player GameObject.</para>
       </summary>
     </member>
     <member name="M:UnityEngine.Networking.NetworkMigrationManager.ReconnectObjectForConnection(UnityEngine.Networking.NetworkConnection,UnityEngine.GameObject,System.Int32)">
@@ -2738,6 +2787,11 @@ All of the player objects in the game are disabled when the host is lost. Then, 
       </summary>
       <param name="buffer">A buffer to construct the reader with, this buffer is NOT copied.</param>
     </member>
+    <member name="P:UnityEngine.Networking.NetworkReader.Length">
+      <summary>
+        <para>The current length of the buffer.</para>
+      </summary>
+    </member>
     <member name="P:UnityEngine.Networking.NetworkReader.Position">
       <summary>
         <para>The current position within the buffer.</para>
@@ -2798,6 +2852,14 @@ All of the player objects in the game are disabled when the host is lost. Then, 
       </summary>
       <returns>
         <para>The colo read from the stream.</para>
+      </returns>
+    </member>
+    <member name="M:UnityEngine.Networking.NetworkReader.ReadDecimal">
+      <summary>
+        <para>Reads a decimal from the stream.</para>
+      </summary>
+      <returns>
+        <para>Value read.</para>
       </returns>
     </member>
     <member name="M:UnityEngine.Networking.NetworkReader.ReadDouble">
@@ -3057,7 +3119,7 @@ All of the player objects in the game are disabled when the host is lost. Then, 
     </member>
     <member name="T:UnityEngine.Networking.NetworkServer">
       <summary>
-        <para>High level network server.</para>
+        <para>The NetworkServer uses a NetworkServerSimple for basic network functionality and adds more game-like functionality.</para>
       </summary>
     </member>
     <member name="P:UnityEngine.Networking.NetworkServer.active">
@@ -3231,9 +3293,9 @@ All of the player objects in the game are disabled when the host is lost. Then, 
         <para>Disconnect all currently connected clients.</para>
       </summary>
     </member>
-    <member name="M:UnityEngine.Networking.NetworkServer.FindLocalObject">
+    <member name="M:UnityEngine.Networking.NetworkServer.FindLocalObject(UnityEngine.Networking.NetworkInstanceId)">
       <summary>
-        <para>This finds the NetworkIdentity game object that matches a netId.</para>
+        <para>This finds the local NetworkIdentity object with the specified network Id.</para>
       </summary>
       <param name="netId">The netId of the NetworkIdentity object to find.</param>
       <returns>
@@ -3266,7 +3328,7 @@ All of the player objects in the game are disabled when the host is lost. Then, 
     </member>
     <member name="M:UnityEngine.Networking.NetworkServer.Listen(System.String,System.Int32)">
       <summary>
-        <para>Start the server on the given port number. Note that if a match has been created, this will listen using the relay server instead of a local socket.</para>
+        <para>Start the server on the given port number. Note that if a match has been created, this will listen using the Relay server instead of a local socket.</para>
       </summary>
       <param name="ipAddress">The IP address to bind to (optional).</param>
       <param name="serverPort">Listen port number.</param>
@@ -3276,7 +3338,7 @@ All of the player objects in the game are disabled when the host is lost. Then, 
     </member>
     <member name="M:UnityEngine.Networking.NetworkServer.Listen(System.Int32)">
       <summary>
-        <para>Start the server on the given port number. Note that if a match has been created, this will listen using the relay server instead of a local socket.</para>
+        <para>Start the server on the given port number. Note that if a match has been created, this will listen using the Relay server instead of a local socket.</para>
       </summary>
       <param name="ipAddress">The IP address to bind to (optional).</param>
       <param name="serverPort">Listen port number.</param>
@@ -3286,7 +3348,7 @@ All of the player objects in the game are disabled when the host is lost. Then, 
     </member>
     <member name="M:UnityEngine.Networking.NetworkServer.ListenRelay(System.String,System.Int32,UnityEngine.Networking.Types.NetworkID,UnityEngine.Networking.Types.SourceID,UnityEngine.Networking.Types.NodeID)">
       <summary>
-        <para>Starts a server using a relay server. This is the manual way of using the relay server, as the regular NetworkServer.Connect() will automatically use the relay server if a match exists.</para>
+        <para>Starts a server using a Relay server. This is the manual way of using the Relay server, as the regular NetworkServer.Connect() will automatically use the Relay server if a match exists.</para>
       </summary>
       <param name="relayIp">Relay server IP Address.</param>
       <param name="relayPort">Relay server port.</param>
@@ -3366,7 +3428,7 @@ All of the player objects in the game are disabled when the host is lost. Then, 
       <summary>
         <para>This sends an array of bytes to a specific player.</para>
       </summary>
-      <param name="player">The player to send he bytes to.</param>
+      <param name="player">The player to send the bytes to.</param>
       <param name="buffer">Array of bytes to send.</param>
       <param name="numBytes">Size of array.</param>
       <param name="channelId">Transport layer channel id to send bytes on.</param>
@@ -3381,7 +3443,7 @@ All of the player objects in the game are disabled when the host is lost. Then, 
     </member>
     <member name="M:UnityEngine.Networking.NetworkServer.SendNetworkInfo(UnityEngine.Networking.NetworkConnection)">
       <summary>
-        <para>This sends information about all participants in the current network game to the connection.</para>
+        <para>This is obsolete. This functionality is now part of the NetworkMigrationManager.</para>
       </summary>
       <param name="targetConnection">Connection to send peer info to.</param>
     </member>
@@ -3667,7 +3729,7 @@ All of the player objects in the game are disabled when the host is lost. Then, 
     </member>
     <member name="M:UnityEngine.Networking.NetworkServerSimple.ListenRelay(System.String,System.Int32,UnityEngine.Networking.Types.NetworkID,UnityEngine.Networking.Types.SourceID,UnityEngine.Networking.Types.NodeID)">
       <summary>
-        <para>Starts a server using a relay server. This is the manual way of using the relay server, as the regular NetworkServer.Connect() will automatically use the relay server if a match exists.</para>
+        <para>Starts a server using a Relay server. This is the manual way of using the Relay server, as the regular NetworkServer.Connect() will automatically use the Relay server if a match exists.</para>
       </summary>
       <param name="relayIp">Relay server IP Address.</param>
       <param name="relayPort">Relay server port.</param>
@@ -3921,7 +3983,7 @@ All of the player objects in the game are disabled when the host is lost. Then, 
     </member>
     <member name="F:UnityEngine.Networking.NetworkSystem.PeerInfoPlayer.playerControllerId">
       <summary>
-        <para>The playerControllerId of the player object.</para>
+        <para>The playerControllerId of the player GameObject.</para>
       </summary>
     </member>
     <member name="T:UnityEngine.Networking.NetworkSystem.PeerListMessage">
@@ -3981,7 +4043,7 @@ All of the player objects in the game are disabled when the host is lost. Then, 
     </member>
     <member name="F:UnityEngine.Networking.NetworkSystem.RemovePlayerMessage.playerControllerId">
       <summary>
-        <para>The player ID of the player object which should be removed.</para>
+        <para>The player ID of the player GameObject which should be removed.</para>
       </summary>
     </member>
     <member name="T:UnityEngine.Networking.NetworkSystem.StringMessage">
@@ -3996,7 +4058,7 @@ All of the player objects in the game are disabled when the host is lost. Then, 
     </member>
     <member name="T:UnityEngine.Networking.NetworkTransform">
       <summary>
-        <para>A component to synchronize the position of networked objects.</para>
+        <para>A component to synchronize the position and rotation of networked objects.</para>
       </summary>
     </member>
     <member name="P:UnityEngine.Networking.NetworkTransform.characterContoller">
@@ -4334,11 +4396,335 @@ All of the player objects in the game are disabled when the host is lost. Then, 
         <para>Copy of data used by the writer.</para>
       </returns>
     </member>
+    <member name="M:UnityEngine.Networking.NetworkWriter.Write(System.Char)">
+      <summary>
+        <para>This writes a reference to an object, value, buffer or network message, together with a NetworkIdentity component to the stream.</para>
+      </summary>
+      <param name="value">The object to write.</param>
+      <param name="buffer">The byte buffer to write.</param>
+      <param name="count">The number of bytes in the byte buffer to write.</param>
+      <param name="offset">The byte buffer array element to start writing from.</param>
+      <param name="msg">The network message to write.</param>
+    </member>
+    <member name="M:UnityEngine.Networking.NetworkWriter.Write(System.Byte)">
+      <summary>
+        <para>This writes a reference to an object, value, buffer or network message, together with a NetworkIdentity component to the stream.</para>
+      </summary>
+      <param name="value">The object to write.</param>
+      <param name="buffer">The byte buffer to write.</param>
+      <param name="count">The number of bytes in the byte buffer to write.</param>
+      <param name="offset">The byte buffer array element to start writing from.</param>
+      <param name="msg">The network message to write.</param>
+    </member>
+    <member name="M:UnityEngine.Networking.NetworkWriter.Write(System.SByte)">
+      <summary>
+        <para>This writes a reference to an object, value, buffer or network message, together with a NetworkIdentity component to the stream.</para>
+      </summary>
+      <param name="value">The object to write.</param>
+      <param name="buffer">The byte buffer to write.</param>
+      <param name="count">The number of bytes in the byte buffer to write.</param>
+      <param name="offset">The byte buffer array element to start writing from.</param>
+      <param name="msg">The network message to write.</param>
+    </member>
+    <member name="M:UnityEngine.Networking.NetworkWriter.Write(System.Int16)">
+      <summary>
+        <para>This writes a reference to an object, value, buffer or network message, together with a NetworkIdentity component to the stream.</para>
+      </summary>
+      <param name="value">The object to write.</param>
+      <param name="buffer">The byte buffer to write.</param>
+      <param name="count">The number of bytes in the byte buffer to write.</param>
+      <param name="offset">The byte buffer array element to start writing from.</param>
+      <param name="msg">The network message to write.</param>
+    </member>
+    <member name="M:UnityEngine.Networking.NetworkWriter.Write(System.UInt16)">
+      <summary>
+        <para>This writes a reference to an object, value, buffer or network message, together with a NetworkIdentity component to the stream.</para>
+      </summary>
+      <param name="value">The object to write.</param>
+      <param name="buffer">The byte buffer to write.</param>
+      <param name="count">The number of bytes in the byte buffer to write.</param>
+      <param name="offset">The byte buffer array element to start writing from.</param>
+      <param name="msg">The network message to write.</param>
+    </member>
+    <member name="M:UnityEngine.Networking.NetworkWriter.Write(System.Int32)">
+      <summary>
+        <para>This writes a reference to an object, value, buffer or network message, together with a NetworkIdentity component to the stream.</para>
+      </summary>
+      <param name="value">The object to write.</param>
+      <param name="buffer">The byte buffer to write.</param>
+      <param name="count">The number of bytes in the byte buffer to write.</param>
+      <param name="offset">The byte buffer array element to start writing from.</param>
+      <param name="msg">The network message to write.</param>
+    </member>
+    <member name="M:UnityEngine.Networking.NetworkWriter.Write(System.UInt32)">
+      <summary>
+        <para>This writes a reference to an object, value, buffer or network message, together with a NetworkIdentity component to the stream.</para>
+      </summary>
+      <param name="value">The object to write.</param>
+      <param name="buffer">The byte buffer to write.</param>
+      <param name="count">The number of bytes in the byte buffer to write.</param>
+      <param name="offset">The byte buffer array element to start writing from.</param>
+      <param name="msg">The network message to write.</param>
+    </member>
+    <member name="M:UnityEngine.Networking.NetworkWriter.Write(System.Int64)">
+      <summary>
+        <para>This writes a reference to an object, value, buffer or network message, together with a NetworkIdentity component to the stream.</para>
+      </summary>
+      <param name="value">The object to write.</param>
+      <param name="buffer">The byte buffer to write.</param>
+      <param name="count">The number of bytes in the byte buffer to write.</param>
+      <param name="offset">The byte buffer array element to start writing from.</param>
+      <param name="msg">The network message to write.</param>
+    </member>
+    <member name="M:UnityEngine.Networking.NetworkWriter.Write(System.UInt64)">
+      <summary>
+        <para>This writes a reference to an object, value, buffer or network message, together with a NetworkIdentity component to the stream.</para>
+      </summary>
+      <param name="value">The object to write.</param>
+      <param name="buffer">The byte buffer to write.</param>
+      <param name="count">The number of bytes in the byte buffer to write.</param>
+      <param name="offset">The byte buffer array element to start writing from.</param>
+      <param name="msg">The network message to write.</param>
+    </member>
+    <member name="M:UnityEngine.Networking.NetworkWriter.Write(System.Single)">
+      <summary>
+        <para>This writes a reference to an object, value, buffer or network message, together with a NetworkIdentity component to the stream.</para>
+      </summary>
+      <param name="value">The object to write.</param>
+      <param name="buffer">The byte buffer to write.</param>
+      <param name="count">The number of bytes in the byte buffer to write.</param>
+      <param name="offset">The byte buffer array element to start writing from.</param>
+      <param name="msg">The network message to write.</param>
+    </member>
+    <member name="M:UnityEngine.Networking.NetworkWriter.Write(System.Double)">
+      <summary>
+        <para>This writes a reference to an object, value, buffer or network message, together with a NetworkIdentity component to the stream.</para>
+      </summary>
+      <param name="value">The object to write.</param>
+      <param name="buffer">The byte buffer to write.</param>
+      <param name="count">The number of bytes in the byte buffer to write.</param>
+      <param name="offset">The byte buffer array element to start writing from.</param>
+      <param name="msg">The network message to write.</param>
+    </member>
+    <member name="M:UnityEngine.Networking.NetworkWriter.Write(System.Decimal)">
+      <summary>
+        <para>This writes a reference to an object, value, buffer or network message, together with a NetworkIdentity component to the stream.</para>
+      </summary>
+      <param name="value">The object to write.</param>
+      <param name="buffer">The byte buffer to write.</param>
+      <param name="count">The number of bytes in the byte buffer to write.</param>
+      <param name="offset">The byte buffer array element to start writing from.</param>
+      <param name="msg">The network message to write.</param>
+    </member>
+    <member name="M:UnityEngine.Networking.NetworkWriter.Write(System.String)">
+      <summary>
+        <para>This writes a reference to an object, value, buffer or network message, together with a NetworkIdentity component to the stream.</para>
+      </summary>
+      <param name="value">The object to write.</param>
+      <param name="buffer">The byte buffer to write.</param>
+      <param name="count">The number of bytes in the byte buffer to write.</param>
+      <param name="offset">The byte buffer array element to start writing from.</param>
+      <param name="msg">The network message to write.</param>
+    </member>
+    <member name="M:UnityEngine.Networking.NetworkWriter.Write(System.Boolean)">
+      <summary>
+        <para>This writes a reference to an object, value, buffer or network message, together with a NetworkIdentity component to the stream.</para>
+      </summary>
+      <param name="value">The object to write.</param>
+      <param name="buffer">The byte buffer to write.</param>
+      <param name="count">The number of bytes in the byte buffer to write.</param>
+      <param name="offset">The byte buffer array element to start writing from.</param>
+      <param name="msg">The network message to write.</param>
+    </member>
+    <member name="M:UnityEngine.Networking.NetworkWriter.Write(System.Byte[],System.Int32)">
+      <summary>
+        <para>This writes a reference to an object, value, buffer or network message, together with a NetworkIdentity component to the stream.</para>
+      </summary>
+      <param name="value">The object to write.</param>
+      <param name="buffer">The byte buffer to write.</param>
+      <param name="count">The number of bytes in the byte buffer to write.</param>
+      <param name="offset">The byte buffer array element to start writing from.</param>
+      <param name="msg">The network message to write.</param>
+    </member>
+    <member name="M:UnityEngine.Networking.NetworkWriter.Write(System.Byte[],System.Int32,System.Int32)">
+      <summary>
+        <para>This writes a reference to an object, value, buffer or network message, together with a NetworkIdentity component to the stream.</para>
+      </summary>
+      <param name="value">The object to write.</param>
+      <param name="buffer">The byte buffer to write.</param>
+      <param name="count">The number of bytes in the byte buffer to write.</param>
+      <param name="offset">The byte buffer array element to start writing from.</param>
+      <param name="msg">The network message to write.</param>
+    </member>
+    <member name="M:UnityEngine.Networking.NetworkWriter.Write(UnityEngine.Vector2)">
+      <summary>
+        <para>This writes a reference to an object, value, buffer or network message, together with a NetworkIdentity component to the stream.</para>
+      </summary>
+      <param name="value">The object to write.</param>
+      <param name="buffer">The byte buffer to write.</param>
+      <param name="count">The number of bytes in the byte buffer to write.</param>
+      <param name="offset">The byte buffer array element to start writing from.</param>
+      <param name="msg">The network message to write.</param>
+    </member>
+    <member name="M:UnityEngine.Networking.NetworkWriter.Write(UnityEngine.Vector3)">
+      <summary>
+        <para>This writes a reference to an object, value, buffer or network message, together with a NetworkIdentity component to the stream.</para>
+      </summary>
+      <param name="value">The object to write.</param>
+      <param name="buffer">The byte buffer to write.</param>
+      <param name="count">The number of bytes in the byte buffer to write.</param>
+      <param name="offset">The byte buffer array element to start writing from.</param>
+      <param name="msg">The network message to write.</param>
+    </member>
+    <member name="M:UnityEngine.Networking.NetworkWriter.Write(UnityEngine.Vector4)">
+      <summary>
+        <para>This writes a reference to an object, value, buffer or network message, together with a NetworkIdentity component to the stream.</para>
+      </summary>
+      <param name="value">The object to write.</param>
+      <param name="buffer">The byte buffer to write.</param>
+      <param name="count">The number of bytes in the byte buffer to write.</param>
+      <param name="offset">The byte buffer array element to start writing from.</param>
+      <param name="msg">The network message to write.</param>
+    </member>
+    <member name="M:UnityEngine.Networking.NetworkWriter.Write(UnityEngine.Color)">
+      <summary>
+        <para>This writes a reference to an object, value, buffer or network message, together with a NetworkIdentity component to the stream.</para>
+      </summary>
+      <param name="value">The object to write.</param>
+      <param name="buffer">The byte buffer to write.</param>
+      <param name="count">The number of bytes in the byte buffer to write.</param>
+      <param name="offset">The byte buffer array element to start writing from.</param>
+      <param name="msg">The network message to write.</param>
+    </member>
+    <member name="M:UnityEngine.Networking.NetworkWriter.Write(UnityEngine.Color32)">
+      <summary>
+        <para>This writes a reference to an object, value, buffer or network message, together with a NetworkIdentity component to the stream.</para>
+      </summary>
+      <param name="value">The object to write.</param>
+      <param name="buffer">The byte buffer to write.</param>
+      <param name="count">The number of bytes in the byte buffer to write.</param>
+      <param name="offset">The byte buffer array element to start writing from.</param>
+      <param name="msg">The network message to write.</param>
+    </member>
     <member name="M:UnityEngine.Networking.NetworkWriter.Write(UnityEngine.GameObject)">
       <summary>
-        <para>This writes the a reference to a GameObject with a NetworkIdentity component to the stream. The object should have been spawned for clients to know about it.</para>
+        <para>This writes a reference to an object, value, buffer or network message, together with a NetworkIdentity component to the stream.</para>
       </summary>
-      <param name="value">The GameObject to write.</param>
+      <param name="value">The object to write.</param>
+      <param name="buffer">The byte buffer to write.</param>
+      <param name="count">The number of bytes in the byte buffer to write.</param>
+      <param name="offset">The byte buffer array element to start writing from.</param>
+      <param name="msg">The network message to write.</param>
+    </member>
+    <member name="M:UnityEngine.Networking.NetworkWriter.Write(UnityEngine.Quaternion)">
+      <summary>
+        <para>This writes a reference to an object, value, buffer or network message, together with a NetworkIdentity component to the stream.</para>
+      </summary>
+      <param name="value">The object to write.</param>
+      <param name="buffer">The byte buffer to write.</param>
+      <param name="count">The number of bytes in the byte buffer to write.</param>
+      <param name="offset">The byte buffer array element to start writing from.</param>
+      <param name="msg">The network message to write.</param>
+    </member>
+    <member name="M:UnityEngine.Networking.NetworkWriter.Write(UnityEngine.Rect)">
+      <summary>
+        <para>This writes a reference to an object, value, buffer or network message, together with a NetworkIdentity component to the stream.</para>
+      </summary>
+      <param name="value">The object to write.</param>
+      <param name="buffer">The byte buffer to write.</param>
+      <param name="count">The number of bytes in the byte buffer to write.</param>
+      <param name="offset">The byte buffer array element to start writing from.</param>
+      <param name="msg">The network message to write.</param>
+    </member>
+    <member name="M:UnityEngine.Networking.NetworkWriter.Write(UnityEngine.Plane)">
+      <summary>
+        <para>This writes a reference to an object, value, buffer or network message, together with a NetworkIdentity component to the stream.</para>
+      </summary>
+      <param name="value">The object to write.</param>
+      <param name="buffer">The byte buffer to write.</param>
+      <param name="count">The number of bytes in the byte buffer to write.</param>
+      <param name="offset">The byte buffer array element to start writing from.</param>
+      <param name="msg">The network message to write.</param>
+    </member>
+    <member name="M:UnityEngine.Networking.NetworkWriter.Write(UnityEngine.Ray)">
+      <summary>
+        <para>This writes a reference to an object, value, buffer or network message, together with a NetworkIdentity component to the stream.</para>
+      </summary>
+      <param name="value">The object to write.</param>
+      <param name="buffer">The byte buffer to write.</param>
+      <param name="count">The number of bytes in the byte buffer to write.</param>
+      <param name="offset">The byte buffer array element to start writing from.</param>
+      <param name="msg">The network message to write.</param>
+    </member>
+    <member name="M:UnityEngine.Networking.NetworkWriter.Write(UnityEngine.Matrix4x4)">
+      <summary>
+        <para>This writes a reference to an object, value, buffer or network message, together with a NetworkIdentity component to the stream.</para>
+      </summary>
+      <param name="value">The object to write.</param>
+      <param name="buffer">The byte buffer to write.</param>
+      <param name="count">The number of bytes in the byte buffer to write.</param>
+      <param name="offset">The byte buffer array element to start writing from.</param>
+      <param name="msg">The network message to write.</param>
+    </member>
+    <member name="M:UnityEngine.Networking.NetworkWriter.Write(UnityEngine.Networking.MessageBase)">
+      <summary>
+        <para>This writes a reference to an object, value, buffer or network message, together with a NetworkIdentity component to the stream.</para>
+      </summary>
+      <param name="value">The object to write.</param>
+      <param name="buffer">The byte buffer to write.</param>
+      <param name="count">The number of bytes in the byte buffer to write.</param>
+      <param name="offset">The byte buffer array element to start writing from.</param>
+      <param name="msg">The network message to write.</param>
+    </member>
+    <member name="M:UnityEngine.Networking.NetworkWriter.Write(UnityEngine.Networking.NetworkHash128)">
+      <summary>
+        <para>This writes a reference to an object, value, buffer or network message, together with a NetworkIdentity component to the stream.</para>
+      </summary>
+      <param name="value">The object to write.</param>
+      <param name="buffer">The byte buffer to write.</param>
+      <param name="count">The number of bytes in the byte buffer to write.</param>
+      <param name="offset">The byte buffer array element to start writing from.</param>
+      <param name="msg">The network message to write.</param>
+    </member>
+    <member name="M:UnityEngine.Networking.NetworkWriter.Write(UnityEngine.Networking.NetworkIdentity)">
+      <summary>
+        <para>This writes a reference to an object, value, buffer or network message, together with a NetworkIdentity component to the stream.</para>
+      </summary>
+      <param name="value">The object to write.</param>
+      <param name="buffer">The byte buffer to write.</param>
+      <param name="count">The number of bytes in the byte buffer to write.</param>
+      <param name="offset">The byte buffer array element to start writing from.</param>
+      <param name="msg">The network message to write.</param>
+    </member>
+    <member name="M:UnityEngine.Networking.NetworkWriter.Write(UnityEngine.Networking.NetworkInstanceId)">
+      <summary>
+        <para>This writes a reference to an object, value, buffer or network message, together with a NetworkIdentity component to the stream.</para>
+      </summary>
+      <param name="value">The object to write.</param>
+      <param name="buffer">The byte buffer to write.</param>
+      <param name="count">The number of bytes in the byte buffer to write.</param>
+      <param name="offset">The byte buffer array element to start writing from.</param>
+      <param name="msg">The network message to write.</param>
+    </member>
+    <member name="M:UnityEngine.Networking.NetworkWriter.Write(UnityEngine.Networking.NetworkSceneId)">
+      <summary>
+        <para>This writes a reference to an object, value, buffer or network message, together with a NetworkIdentity component to the stream.</para>
+      </summary>
+      <param name="value">The object to write.</param>
+      <param name="buffer">The byte buffer to write.</param>
+      <param name="count">The number of bytes in the byte buffer to write.</param>
+      <param name="offset">The byte buffer array element to start writing from.</param>
+      <param name="msg">The network message to write.</param>
+    </member>
+    <member name="M:UnityEngine.Networking.NetworkWriter.Write(UnityEngine.Transform)">
+      <summary>
+        <para>This writes a reference to an object, value, buffer or network message, together with a NetworkIdentity component to the stream.</para>
+      </summary>
+      <param name="value">The object to write.</param>
+      <param name="buffer">The byte buffer to write.</param>
+      <param name="count">The number of bytes in the byte buffer to write.</param>
+      <param name="offset">The byte buffer array element to start writing from.</param>
+      <param name="msg">The network message to write.</param>
     </member>
     <member name="M:UnityEngine.Networking.NetworkWriter.WriteBytesAndSize(System.Byte[],System.Int32)">
       <summary>
@@ -4466,6 +4852,24 @@ All of the player objects in the game are disabled when the host is lost. Then, 
         <para>Same as List:Clear() but the list is cleared on clients.</para>
       </summary>
     </member>
+    <member name="M:UnityEngine.Networking.SyncList_1.Contains(T)">
+      <summary>
+        <para>Determines whether the list contains item item.</para>
+      </summary>
+      <param name="item">Item to search for.</param>
+    </member>
+    <member name="M:UnityEngine.Networking.SyncList_1.CopyTo(T[],System.Int32)">
+      <summary>
+        <para>Copies the elements of the SyncList&lt;T&gt; to an Array, starting at a particular Array index.</para>
+      </summary>
+      <param name="array">Array to copy elements to.</param>
+      <param name="index">The zero-based index in array at which copying begins.</param>
+    </member>
+    <member name="P:UnityEngine.Networking.SyncList_1.Count">
+      <summary>
+        <para>Returns the number of elements in this SyncList&lt;T&gt;.</para>
+      </summary>
+    </member>
     <member name="M:UnityEngine.Networking.SyncList_1.DeserializeItem(UnityEngine.Networking.NetworkReader)">
       <summary>
         <para>This method is used when deserializing SyncList items from a stream.</para>
@@ -4481,6 +4885,11 @@ All of the player objects in the game are disabled when the host is lost. Then, 
       </summary>
       <param name="index">Index of item to dirty.</param>
     </member>
+    <member name="M:UnityEngine.Networking.SyncList_1.GetEnumerator">
+      <summary>
+        <para>Returns an enumerator that iterates through the SyncList&lt;T&gt;.</para>
+      </summary>
+    </member>
     <member name="M:UnityEngine.Networking.SyncList_1.HandleMsg">
       <summary>
         <para>Internal function used for remote list operations.</para>
@@ -4488,6 +4897,12 @@ All of the player objects in the game are disabled when the host is lost. Then, 
       <param name="op">List operation.</param>
       <param name="itemIndex">The index of the item being operated on.</param>
       <param name="item">The item being operated on.</param>
+    </member>
+    <member name="M:UnityEngine.Networking.SyncList_1.IndexOf(T)">
+      <summary>
+        <para>Determines the index of a specific item in the SyncList&lt;T&gt;.</para>
+      </summary>
+      <param name="item">The item to return the index for.</param>
     </member>
     <member name="M:UnityEngine.Networking.SyncList_1.InitializeBehaviour(UnityEngine.Networking.NetworkBehaviour,System.Int32)">
       <summary>
@@ -4502,6 +4917,11 @@ All of the player objects in the game are disabled when the host is lost. Then, 
       </summary>
       <param name="index">Where to insert the item.</param>
       <param name="item">Item to insert.</param>
+    </member>
+    <member name="P:UnityEngine.Networking.SyncList_1.IsReadOnly">
+      <summary>
+        <para>Reports whether the SyncList&lt;T&gt; is read-only.</para>
+      </summary>
     </member>
     <member name="T:UnityEngine.Networking.SyncList`1.Operation">
       <summary>
@@ -4639,13 +5059,22 @@ All of the player objects in the game are disabled when the host is lost. Then, 
     </member>
     <member name="T:UnityEngine.Networking.SyncVarAttribute">
       <summary>
-        <para>[SyncVar] is an attribute that can be put on member variables of UNeBehaviour classes. These variables will have their values sychronized from the server to clients in the game that are in the ready state.
-</para>
+        <para>[SyncVar] is an attribute that can be put on member variables of NetworkBehaviour classes. These variables will have their values sychronized from the server to clients in the game that are in the ready state.</para>
       </summary>
     </member>
     <member name="F:UnityEngine.Networking.SyncVarAttribute.hook">
       <summary>
         <para>The hook attribute can be used to specify a function to be called when the sync var changes value on the client.</para>
+      </summary>
+    </member>
+    <member name="T:UnityEngine.Networking.TargetRpcAttribute">
+      <summary>
+        <para>This is an attribute that can be put on methods of NetworkBehaviour classes to allow them to be invoked on clients from a server. Unlike the ClientRpc attribute, these functions are invoked on one individual target client, not all of the ready clients.</para>
+      </summary>
+    </member>
+    <member name="F:UnityEngine.Networking.TargetRpcAttribute.channel">
+      <summary>
+        <para>The channel ID which this RPC transmission will use.</para>
       </summary>
     </member>
     <member name="T:UnityEngine.Networking.UnSpawnDelegate">

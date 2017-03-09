@@ -33,11 +33,11 @@ namespace uMVVM.Sources.Views
             SetupViewModel oldVm = oldViewModel as SetupViewModel;
             if (oldVm != null)
             {
-                ViewModel.Name.OnValueChanged -= NameValueChanged;
-                ViewModel.Job.OnValueChanged -= JobValueChanged;
-                ViewModel.ATK.OnValueChanged -= ATKValueChanged;
-                ViewModel.State.OnValueChanged -= StateValueChanged;
-                ViewModel.SuccessRate.OnValueChanged -= SuccessRateValueChanged;
+                oldVm.Name.OnValueChanged -= NameValueChanged;
+                oldVm.Job.OnValueChanged -= JobValueChanged;
+                oldVm.ATK.OnValueChanged -= ATKValueChanged;
+                oldVm.State.OnValueChanged -= StateValueChanged;
+                oldVm.SuccessRate.OnValueChanged -= SuccessRateValueChanged;
             }
             if (ViewModel!=null)
             {
