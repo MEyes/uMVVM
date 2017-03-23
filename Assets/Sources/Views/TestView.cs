@@ -10,23 +10,15 @@ using UnityEngine.UI;
 
 namespace Assets.Sources.Views
 {
-    public class TestView:UnityGuiView
+    public class TestView:UnityGuiView<TestViewModel>
     {
         public Image buttonImage;
-        public TestViewModel ViewModel { get { return (TestViewModel)BindingContext; } }
-        protected override void OnBindingContextChanged(ViewModel oldViewModel, ViewModel newViewModel)
-        {
-            base.OnBindingContextChanged(oldViewModel, newViewModel);
+        public TestViewModel ViewModelBase { get { return (TestViewModel)BindingContext; } }
 
-            TestViewModel oldVm = oldViewModel as TestViewModel;
-            if (oldVm != null)
-            {
-                ViewModel.Color.OnValueChanged -= OnColorPropertyValueChanged;
-            }
-            if (ViewModel != null)
-            {
-                ViewModel.Color.OnValueChanged += OnColorPropertyValueChanged;
-            }
+        protected override void OnInitialize()
+        {
+            base.OnInitialize();
+            Binder.Add<string>("Color",OnColorPropertyValueChanged);
         }
 
         private void OnColorPropertyValueChanged(string oldValue, string newValue)

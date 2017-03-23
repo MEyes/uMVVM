@@ -2,27 +2,49 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Assets.Sources.Core.DataBinding;
 using UnityEngine;
 
 namespace uMVVM.Sources.Infrastructure
 {
-    public class UnityGuiView:MonoBehaviour,IView
+    public class UnityGuiView<T>:MonoBehaviour,IView where T:ViewModelBase
     {
-        public readonly BindableProperty<ViewModel> ViewModelProperty = new BindableProperty<ViewModel>();
-        public ViewModel BindingContext
+        private bool _isBindingContextInitialized;
+        protected readonly PropertyBinder<T> Binder=new PropertyBinder<T>();
+        public readonly BindableProperty<ViewModelBase> ViewModelProperty = new BindableProperty<ViewModelBase>();
+
+        public ViewModelBase BindingContext
         {
             get { return ViewModelProperty.Value; }
-            set { ViewModelProperty.Value = value; }
+            set
+            {
+                if (!_isBindingContextInitialized)
+                {
+                    OnInitialize();
+                    _isBindingContextInitialized = true;
+                }
+                //触发ValueChanged事件
+                ViewModelProperty.Value = value;
+            }
         }
-
-        protected virtual void OnBindingContextChanged(ViewModel oldViewModel, ViewModel newViewModel)
+        /// <summary>
+        /// 初始化View，当BindingContext改变时执行
+        /// </summary>
+        protected virtual void OnInitialize()
         {
+            //无所ViewModel的Value怎样变化，只对ValueChanged事件监听(绑定)一次
+            ViewModelProperty.OnValueChanged += OnBindingContextChanged;
         }
-
-        public UnityGuiView()
+        /// <summary>
+        /// 绑定的上下文发生改变时的响应方法
+        /// </summary>
+        private void OnBindingContextChanged(ViewModelBase oldvalue, ViewModelBase newvalue)
         {
-            this.ViewModelProperty.OnValueChanged += OnBindingContextChanged;
-        }
+            Binder.Unbind((T)BindingContext);//TODO:
+            Binder.Bind((T)newvalue);
 
+//            Binder.Unbind((T)BindingContext);//TODO:oldViewModel吧*1000
+//            Binder.Bind(ViewModel);
+        }
     }
 }

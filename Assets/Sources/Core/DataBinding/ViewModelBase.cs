@@ -5,7 +5,7 @@ using System.Text;
 
 namespace uMVVM.Sources.Infrastructure
 {
-    public class ViewModel
+    public class ViewModelBase
     {
         //TODO
     }

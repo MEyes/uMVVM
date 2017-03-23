@@ -7,6 +7,6 @@ namespace uMVVM.Sources.Infrastructure
 {
     public interface IView
     {
-        ViewModel BindingContext { get; set; }
+        ViewModelBase BindingContext { get; set; }
     }
 }
