@@ -1,3 +1,3 @@
 # uMVVM
 a simple unity3d mvvm framework
-beta
+wiki page:https://github.com/MEyes/uMVVM/wiki
