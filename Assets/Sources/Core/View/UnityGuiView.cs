@@ -23,7 +23,7 @@ namespace uMVVM.Sources.Infrastructure
                     OnInitialize();
                     _isBindingContextInitialized = true;
                 }
-                //触发ValueChanged事件
+                //触发OnValueChanged事件
                 ViewModelProperty.Value = value;
             }
         }
@@ -32,19 +32,17 @@ namespace uMVVM.Sources.Infrastructure
         /// </summary>
         protected virtual void OnInitialize()
         {
-            //无所ViewModel的Value怎样变化，只对ValueChanged事件监听(绑定)一次
+            //无所ViewModel的Value怎样变化，只对OnValueChanged事件监听(绑定)一次
             ViewModelProperty.OnValueChanged += OnBindingContextChanged;
         }
         /// <summary>
         /// 绑定的上下文发生改变时的响应方法
+        /// 利用反射+=/-=OnValuePropertyChanged
         /// </summary>
         private void OnBindingContextChanged(ViewModelBase oldvalue, ViewModelBase newvalue)
         {
-            Binder.Unbind((T)BindingContext);//TODO:
+            Binder.Unbind((T)oldvalue);
             Binder.Bind((T)newvalue);
-
-//            Binder.Unbind((T)BindingContext);//TODO:oldViewModel吧*1000
-//            Binder.Bind(ViewModel);
         }
     }
 }
