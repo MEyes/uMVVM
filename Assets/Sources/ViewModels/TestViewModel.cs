@@ -16,7 +16,6 @@ namespace Assets.Sources.ViewModels
         public TestViewModel()
         {
             MessageAggregator<object>.Instance.Subscribe("Toggle",ToggleHandler);
-            Debug.Log("2");
         }
 
         private void ToggleHandler(object sender, MessageArgs<object> args)

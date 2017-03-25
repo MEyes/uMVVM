@@ -34,6 +34,7 @@ namespace Assets.Sources.Infrastructure
         {
             if (_messages.ContainsKey(name) && _messages[name] != null)
             {
+                //转发
                 _messages[name](sender, args);
             }
         }
