@@ -3,30 +3,109 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Assets.Sources.Core.DataBinding;
+using DG.Tweening;
 using UnityEngine;
 
 namespace uMVVM.Sources.Infrastructure
 {
-    public class UnityGuiView<T>:MonoBehaviour,IView where T:ViewModelBase
+    [RequireComponent(typeof(CanvasGroup))]
+    public abstract class UnityGuiView<T>:MonoBehaviour,IView<T> where T:ViewModelBase
     {
-        private bool _isBindingContextInitialized;
+        private bool _isInitialized;
+        public bool destroyOnHide;
         protected readonly PropertyBinder<T> Binder=new PropertyBinder<T>();
-        public readonly BindableProperty<ViewModelBase> ViewModelProperty = new BindableProperty<ViewModelBase>();
+        public readonly BindableProperty<T> ViewModelProperty = new BindableProperty<T>();
+        /// <summary>
+        /// 显示之后的回掉函数
+        /// </summary>
+        public Action RevealedAction { get; set; }
+        /// <summary>
+        /// 隐藏之后的回掉函数
+        /// </summary>
+        public Action HiddenAction { get; set; }
 
-        public ViewModelBase BindingContext
+        public T BindingContext
         {
             get { return ViewModelProperty.Value; }
             set
             {
-                if (!_isBindingContextInitialized)
+                if (!_isInitialized)
                 {
                     OnInitialize();
-                    _isBindingContextInitialized = true;
+                    _isInitialized = true;
                 }
                 //触发OnValueChanged事件
                 ViewModelProperty.Value = value;
             }
         }
+
+        public void Reveal(bool immediate = false, Action action = null)
+        {
+            if (action!=null)
+            {
+                RevealedAction += action;
+            }
+            OnAppearing();
+            if (immediate)
+            {
+                //立即显示
+                transform.localScale = Vector3.one;
+                GetComponent<CanvasGroup>().alpha = 1;
+            }
+            else
+            {
+                StartAnimatedReveal();
+            }
+            OnRevealed();
+        }
+
+        public void Hide(bool immediate = false, Action action = null)
+        {
+            if (action!=null)
+            {
+                HiddenAction += action;
+            }
+            OnDisappearing();
+            if (immediate)
+            {
+                //立即隐藏
+                transform.localScale = Vector3.zero;
+                GetComponent<CanvasGroup>().alpha = 0;
+            }
+            else
+            {
+                StartAnimatedHide();
+            }
+            OnHidden();
+        }
+        /// <summary>
+        /// scale:1,alpha:1
+        /// </summary>
+        protected virtual void StartAnimatedReveal()
+        {
+            var canvasGroup = GetComponent<CanvasGroup>();
+            canvasGroup.interactable = false;
+            transform.localScale = Vector3.one;
+
+            canvasGroup.DOFade(1, 0.2f).SetDelay(0.2f).OnComplete(() =>
+            {
+                canvasGroup.interactable = true;
+            });
+        }
+        /// <summary>
+        /// alpha:0,scale:0
+        /// </summary>
+        protected virtual void StartAnimatedHide()
+        {
+            var canvasGroup = GetComponent<CanvasGroup>();
+            canvasGroup.interactable = false;
+            canvasGroup.DOFade(0,0.2f).SetDelay(0.2f).OnComplete(() =>
+            {
+                transform.localScale = Vector3.zero;
+                canvasGroup.interactable = true;
+            });
+        }
+
         /// <summary>
         /// 初始化View，当BindingContext改变时执行
         /// </summary>
@@ -39,10 +118,63 @@ namespace uMVVM.Sources.Infrastructure
         /// 绑定的上下文发生改变时的响应方法
         /// 利用反射+=/-=OnValuePropertyChanged
         /// </summary>
-        private void OnBindingContextChanged(ViewModelBase oldvalue, ViewModelBase newvalue)
+        private void OnBindingContextChanged(T oldValue, T newValue)
         {
-            Binder.Unbind((T)oldvalue);
-            Binder.Bind((T)newvalue);
+            Binder.Unbind(oldValue);
+            Binder.Bind(newValue);
+        }
+
+        /// <summary>
+        /// 激活gameObject,Disable->Enable
+        /// </summary>
+        public virtual void OnAppearing()
+        {
+            gameObject.SetActive(true);
+            BindingContext.OnStartReveal();
+        }
+        /// <summary>
+        /// alpha 0->1 之后执行
+        /// </summary>
+        public virtual void OnRevealed()
+        {
+            BindingContext.OnFinishReveal();
+            //回掉函数
+            RevealedAction();
+        }
+        /// <summary>
+        /// 消失
+        /// </summary>
+        public virtual void OnDisappearing()
+        {
+            BindingContext.OnStartHide();
+
+        }
+        /// <summary>
+        /// alpha 1->0时
+        /// </summary>
+        public virtual void OnHidden()
+        {
+            gameObject.SetActive(false);
+            BindingContext.OnFinishHide();
+            //回掉函数
+            HiddenAction();
+            if (destroyOnHide)
+            {
+                //销毁
+                Destroy(this.gameObject);
+            }
+        }
+        /// <summary>
+        /// 当gameObject将被销毁时，这个方法被调用
+        /// </summary>
+        public virtual void OnDestroy()
+        {
+            if (BindingContext.IsRevealed)
+            {
+                Hide(true);
+            }
+            BindingContext = null;
+            ViewModelProperty.OnValueChanged = null;
         }
     }
 }
