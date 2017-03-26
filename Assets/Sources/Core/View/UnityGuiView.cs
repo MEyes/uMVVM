@@ -45,17 +45,8 @@ namespace uMVVM.Sources.Infrastructure
             {
                 RevealedAction += action;
             }
-            OnAppearing();
-            if (immediate)
-            {
-                //立即显示
-                transform.localScale = Vector3.one;
-                GetComponent<CanvasGroup>().alpha = 1;
-            }
-            else
-            {
-                StartAnimatedReveal();
-            }
+            OnAppear();
+            OnReveal(immediate);
             OnRevealed();
         }
 
@@ -65,45 +56,9 @@ namespace uMVVM.Sources.Infrastructure
             {
                 HiddenAction += action;
             }
-            OnDisappearing();
-            if (immediate)
-            {
-                //立即隐藏
-                transform.localScale = Vector3.zero;
-                GetComponent<CanvasGroup>().alpha = 0;
-            }
-            else
-            {
-                StartAnimatedHide();
-            }
+            OnDisappear();
+            OnHide(immediate);
             OnHidden();
-        }
-        /// <summary>
-        /// scale:1,alpha:1
-        /// </summary>
-        protected virtual void StartAnimatedReveal()
-        {
-            var canvasGroup = GetComponent<CanvasGroup>();
-            canvasGroup.interactable = false;
-            transform.localScale = Vector3.one;
-
-            canvasGroup.DOFade(1, 0.2f).SetDelay(0.2f).OnComplete(() =>
-            {
-                canvasGroup.interactable = true;
-            });
-        }
-        /// <summary>
-        /// alpha:0,scale:0
-        /// </summary>
-        protected virtual void StartAnimatedHide()
-        {
-            var canvasGroup = GetComponent<CanvasGroup>();
-            canvasGroup.interactable = false;
-            canvasGroup.DOFade(0,0.2f).SetDelay(0.2f).OnComplete(() =>
-            {
-                transform.localScale = Vector3.zero;
-                canvasGroup.interactable = true;
-            });
         }
 
         /// <summary>
@@ -114,20 +69,25 @@ namespace uMVVM.Sources.Infrastructure
             //无所ViewModel的Value怎样变化，只对OnValueChanged事件监听(绑定)一次
             ViewModelProperty.OnValueChanged += OnBindingContextChanged;
         }
-        /// <summary>
-        /// 绑定的上下文发生改变时的响应方法
-        /// 利用反射+=/-=OnValuePropertyChanged
-        /// </summary>
-        private void OnBindingContextChanged(T oldValue, T newValue)
+
+        private void OnReveal(bool immediate)
         {
-            Binder.Unbind(oldValue);
-            Binder.Bind(newValue);
+            if (immediate)
+            {
+                //立即显示
+                transform.localScale = Vector3.one;
+                GetComponent<CanvasGroup>().alpha = 1;
+            }
+            else
+            {
+                StartAnimatedReveal();
+            }
         }
 
         /// <summary>
         /// 激活gameObject,Disable->Enable
         /// </summary>
-        public virtual void OnAppearing()
+        public virtual void OnAppear()
         {
             gameObject.SetActive(true);
             BindingContext.OnStartReveal();
@@ -144,10 +104,23 @@ namespace uMVVM.Sources.Infrastructure
         /// <summary>
         /// 消失
         /// </summary>
-        public virtual void OnDisappearing()
+        public virtual void OnDisappear()
         {
             BindingContext.OnStartHide();
 
+        }
+        private void OnHide(bool immediate)
+        {
+            if (immediate)
+            {
+                //立即隐藏
+                transform.localScale = Vector3.zero;
+                GetComponent<CanvasGroup>().alpha = 0;
+            }
+            else
+            {
+                StartAnimatedHide();
+            }
         }
         /// <summary>
         /// alpha 1->0时
@@ -175,6 +148,43 @@ namespace uMVVM.Sources.Infrastructure
             }
             BindingContext = null;
             ViewModelProperty.OnValueChanged = null;
+        }
+
+        /// <summary>
+        /// scale:1,alpha:1
+        /// </summary>
+        protected virtual void StartAnimatedReveal()
+        {
+            var canvasGroup = GetComponent<CanvasGroup>();
+            canvasGroup.interactable = false;
+            transform.localScale = Vector3.one;
+
+            canvasGroup.DOFade(1, 0.2f).SetDelay(0.2f).OnComplete(() =>
+            {
+                canvasGroup.interactable = true;
+            });
+        }
+        /// <summary>
+        /// alpha:0,scale:0
+        /// </summary>
+        protected virtual void StartAnimatedHide()
+        {
+            var canvasGroup = GetComponent<CanvasGroup>();
+            canvasGroup.interactable = false;
+            canvasGroup.DOFade(0, 0.2f).SetDelay(0.2f).OnComplete(() =>
+            {
+                transform.localScale = Vector3.zero;
+                canvasGroup.interactable = true;
+            });
+        }
+        /// <summary>
+        /// 绑定的上下文发生改变时的响应方法
+        /// 利用反射+=/-=OnValuePropertyChanged
+        /// </summary>
+        private void OnBindingContextChanged(T oldValue, T newValue)
+        {
+            Binder.Unbind(oldValue);
+            Binder.Bind(newValue);
         }
     }
 }
