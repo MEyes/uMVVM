@@ -21,6 +21,13 @@ namespace uMVVM.Sources
             //绑定上下文
             setupView.BindingContext=new SetupViewModel();
             testView.BindingContext=new TestViewModel();
+            //以动画模式缓慢显示
+            setupView.Reveal(false, () =>
+            {
+                Debug.Log("测试");
+            });
+            //立刻显示
+            testView.Reveal(true);
         }
     }
 }

@@ -99,7 +99,10 @@ namespace uMVVM.Sources.Infrastructure
         {
             BindingContext.OnFinishReveal();
             //回掉函数
-            RevealedAction();
+            if (RevealedAction!=null)
+            {
+                RevealedAction();
+            }
         }
         /// <summary>
         /// 消失
@@ -130,7 +133,10 @@ namespace uMVVM.Sources.Infrastructure
             gameObject.SetActive(false);
             BindingContext.OnFinishHide();
             //回掉函数
-            HiddenAction();
+            if (HiddenAction!=null)
+            {
+                HiddenAction();
+            }
             if (destroyOnHide)
             {
                 //销毁
