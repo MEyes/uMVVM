@@ -56,9 +56,9 @@ namespace uMVVM.Sources.Infrastructure
             {
                 HiddenAction += action;
             }
-            OnDisappear();
             OnHide(immediate);
             OnHidden();
+            OnDisappear();
         }
 
         /// <summary>
@@ -70,6 +70,18 @@ namespace uMVVM.Sources.Infrastructure
             ViewModelProperty.OnValueChanged += OnBindingContextChanged;
         }
 
+        /// <summary>
+        /// 激活gameObject,Disable->Enable
+        /// </summary>
+        public virtual void OnAppear()
+        {
+            gameObject.SetActive(true);
+            BindingContext.OnStartReveal();
+        }
+        /// <summary>
+        /// 开始显示
+        /// </summary>
+        /// <param name="immediate"></param>
         private void OnReveal(bool immediate)
         {
             if (immediate)
@@ -83,15 +95,6 @@ namespace uMVVM.Sources.Infrastructure
                 StartAnimatedReveal();
             }
         }
-
-        /// <summary>
-        /// 激活gameObject,Disable->Enable
-        /// </summary>
-        public virtual void OnAppear()
-        {
-            gameObject.SetActive(true);
-            BindingContext.OnStartReveal();
-        }
         /// <summary>
         /// alpha 0->1 之后执行
         /// </summary>
@@ -104,16 +107,10 @@ namespace uMVVM.Sources.Infrastructure
                 RevealedAction();
             }
         }
-        /// <summary>
-        /// 消失
-        /// </summary>
-        public virtual void OnDisappear()
-        {
-            BindingContext.OnStartHide();
-
-        }
+      
         private void OnHide(bool immediate)
         {
+            BindingContext.OnStartHide();
             if (immediate)
             {
                 //立即隐藏
@@ -130,18 +127,25 @@ namespace uMVVM.Sources.Infrastructure
         /// </summary>
         public virtual void OnHidden()
         {
-            gameObject.SetActive(false);
-            BindingContext.OnFinishHide();
             //回掉函数
             if (HiddenAction!=null)
             {
                 HiddenAction();
             }
+        }
+        /// <summary>
+        /// 消失 Enable->Disable
+        /// </summary>
+        public virtual void OnDisappear()
+        {
+            gameObject.SetActive(false);
+            BindingContext.OnFinishHide();
             if (destroyOnHide)
             {
                 //销毁
                 Destroy(this.gameObject);
             }
+
         }
         /// <summary>
         /// 当gameObject将被销毁时，这个方法被调用
