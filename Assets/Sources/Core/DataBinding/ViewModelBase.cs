@@ -45,5 +45,10 @@ namespace uMVVM.Sources.Infrastructure
             IsHideInProgress = false;
             IsRevealed = false;
         }
+
+        public virtual void OnDestory()
+        {
+            
+        }
     }
 }

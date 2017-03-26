@@ -156,6 +156,7 @@ namespace uMVVM.Sources.Infrastructure
             {
                 Hide(true);
             }
+            BindingContext.OnDestory();
             BindingContext = null;
             ViewModelProperty.OnValueChanged = null;
         }
