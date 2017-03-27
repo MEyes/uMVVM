@@ -13,6 +13,14 @@ namespace Assets.Sources.ViewModels
         public readonly BindableProperty<int> Level=new BindableProperty<int>();
         public readonly BindableProperty<string> Face=new BindableProperty<string>();
         public readonly BindableProperty<Badge> Badge=new BindableProperty<Badge>();
+        public delegate void OnBeginDragHandler();
+        public OnBeginDragHandler OnBeginDrag;
+        public delegate void OnDragHandler();
+        public OnDragHandler OnDrag;
+        public delegate void OnEndDragHandler();
+        public OnEndDragHandler OnEndDrag;
+        public delegate void OnClickHandler();
+        public OnClickHandler OnClick;
 
         public override void OnStartReveal()
         {
