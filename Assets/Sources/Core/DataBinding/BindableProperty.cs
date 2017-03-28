@@ -21,7 +21,7 @@ namespace uMVVM.Sources.Infrastructure
             }
             set
             {
-                if (!object.Equals(_value, value))
+                if (!Equals(_value, value))
                 {
                     T old = _value;
                     _value = value;
