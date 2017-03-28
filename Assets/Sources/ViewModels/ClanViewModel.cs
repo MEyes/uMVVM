@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Assets.Sources.Core.DataBinding;
 using Assets.Sources.Models;
 using uMVVM.Sources.Infrastructure;
@@ -52,7 +54,24 @@ namespace Assets.Sources.ViewModels
 
         public void Initialization()
         {
-            Members.Value = DataSource;
+            Members.Value = DataSource.ToList();
+        }
+
+        public void AddMember()
+        {
+            if (Members.Count<4)
+            {
+                var result = DataSource.OrderBy(o => Guid.NewGuid()).First();
+                Members.Add(result);
+            }
+        }
+
+        public void RemoveMember()
+        {
+            if (Members.Count>0)
+            {
+                Members.Remove(Members[0]);
+            }
         }
     }
 }
