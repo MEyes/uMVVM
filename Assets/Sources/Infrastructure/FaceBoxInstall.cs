@@ -4,19 +4,22 @@ using System.Linq;
 using System.Text;
 using Assets.Sources.ViewModels;
 using Assets.Sources.Views;
+using uMVVM.Sources.ViewModels;
+using uMVVM.Sources.Views;
 using UnityEngine;
 
 namespace Assets.Sources.Infrastructure
 {
-    public class ClanInstall:MonoBehaviour
+    public class FaceBoxInstall : MonoBehaviour
     {
-        public ClanView clanView;
+      
+        public FaceBoxView FaceBoxView;
         void Start()
         {
             //绑定上下文
-            clanView.BindingContext = new ClanViewModel();
+            FaceBoxView.BindingContext = new FaceBoxViewModel();
             //立刻显示
-            clanView.Reveal();
+            FaceBoxView.Reveal();
         }
     }
 }

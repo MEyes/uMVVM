@@ -25,7 +25,7 @@ namespace Assets.Sources.ViewModels
         public override void OnStartReveal()
         {
             base.OnStartReveal();
-            Initialization();
+            //Initialization();
         }
 
         public void Initialization()
@@ -34,6 +34,14 @@ namespace Assets.Sources.ViewModels
             Level.Value = 9;
             Face.Value = "Avatar204_Face";
             Badge.Value = new Badge() {Icon = "Icon_WeaponRod", ElementColor = "1CB9FFFF"};
+        }
+
+        public void InitializationFromData(FaceBox member)
+        {
+            Name.Value = member.Name;
+            Level.Value = member.Level;
+            Face.Value = member.Face;
+            Badge.Value = new Badge() { Icon = member.Badge.Icon, ElementColor = member.Badge.ElementColor };
         }
     }
 }

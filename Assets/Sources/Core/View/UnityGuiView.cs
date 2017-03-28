@@ -192,7 +192,7 @@ namespace uMVVM.Sources.Infrastructure
         /// 绑定的上下文发生改变时的响应方法
         /// 利用反射+=/-=OnValuePropertyChanged
         /// </summary>
-        private void OnBindingContextChanged(T oldValue, T newValue)
+        public virtual void OnBindingContextChanged(T oldValue, T newValue)
         {
             Binder.Unbind(oldValue);
             Binder.Bind(newValue);
