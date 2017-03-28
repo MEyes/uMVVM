@@ -8,6 +8,7 @@ namespace uMVVM.Sources.Infrastructure
     public class ViewModelBase
     {
         private bool _isInitialized;
+        public ViewModelBase ParentViewModel { get; set; }
         public bool IsRevealed { get; private set; }
         public bool IsRevealInProgress { get; private set; }
         public bool IsHideInProgress { get; private set ; }
@@ -50,5 +51,6 @@ namespace uMVVM.Sources.Infrastructure
         {
             
         }
+
     }
 }

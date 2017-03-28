@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Assets.Sources.Core.DataBinding;
 using Assets.Sources.Models;
 using uMVVM.Sources.Infrastructure;
 
