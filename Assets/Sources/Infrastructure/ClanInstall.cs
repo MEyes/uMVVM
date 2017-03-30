@@ -30,16 +30,19 @@ namespace Assets.Sources.Infrastructure
             poolObjectFactory.AcquireObject(typeof(UserRepository));
 
             //            ServiceLocator.RegisterSingleton<UserRepository>();
-            //            //ServiceLocator.RegisterTransient<IUnitRepository,UnitRepository>();
+
             //
             //            var userRepo = ServiceLocator.Resolve<UserRepository>();
             //            userRepo.Add();
             //
             //            var userRepo1 = ServiceLocator.Resolve<UserRepository>();
             //            userRepo1.Add();
-            //
-            //            //            var unitRepo = ServiceLocator.Resolve<IUnitRepository>();
-            //            //            unitRepo.Get();
+
+            //            var unitRepo = ServiceLocator.Resolve<IUnitRepository>();
+            //            unitRepo.Get();
+
+           ServiceLocator.RegisterSingleton<IUnitRepository,UnitRepository>();
+           ServiceLocator.Resolve<IUnitRepository>();
         }
     }
 }
