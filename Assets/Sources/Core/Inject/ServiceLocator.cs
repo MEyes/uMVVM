@@ -74,7 +74,7 @@ namespace Assets.Sources.Core.Inject
             {
                 return null;
             }
-            return Container[type];
+            return Container[type]();
          }
 
 

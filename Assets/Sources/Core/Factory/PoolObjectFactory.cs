@@ -73,7 +73,7 @@ namespace Assets.Sources.Core.Factory
                 }
 
 
-                if (_pool.Count > _max && _limit)
+                if (_pool.Count >= _max && _limit)
                 {
                     throw new Exception("max limit is arrived.");
                 }
