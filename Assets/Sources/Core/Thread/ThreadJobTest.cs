@@ -10,25 +10,25 @@ namespace AssemblyCSharp
 		bool stop;
 		void Start(){
 
-//			job= new ThreadJob (
-//				() => {
-//					//heavy job
-//					for(int i=0;i<12345;i++){
+			job= new ThreadJob (
+				() => {
+					//heavy job
+					for(int i=0;i<12345;i++){
+
+						Debug.Log(i);
+					}
+				},
+			
+				() => {
+					Debug.Log("结束了");
+				});
+			job.Start ();
+
+//			for(int i=0;i<12345;i++){
 //
-//						Debug.Log(i);
-//					}
-//				},
-//			
-//				() => {
-//					Debug.Log("结束了");
-//				});
-//			job.Start ();
-
-			for(int i=0;i<12345;i++){
-
-				Debug.Log(i);
-			}
-
+//				Debug.Log(i);
+//			}
+//
 			StartCoroutine (Wait());
 		}
 
