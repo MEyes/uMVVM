@@ -8,10 +8,11 @@ namespace Assets.Sources.Core.Repository
 {
     public class RestRepository<T, R>:IRepository<T> where T : class, new() where R : class, new()
     {
-
         public void Insert(T instance)
         {
             //通过WWW像远程发送消息
+
+
         }
 
         public void Delete(T instance)
@@ -28,5 +29,5 @@ namespace Assets.Sources.Core.Repository
         {
             throw new NotImplementedException();
         }
-    }
+    }  
 }
