@@ -6,45 +6,45 @@ using UnityEngine;
 
 namespace Assets.Sources.Core.Infrastructure
 {
-    public class Singleton<T>:MonoBehaviour where T:MonoBehaviour,new()
+    /// <summary>    ///     继承自该类，实现 Unity MonoBehaviour 单例模式.    /// </summary>
+    public class Singleton<T>:MonoBehaviour where T:MonoBehaviour
     {
-        private  T _instance;
-        private bool _isBeingDestory;
+        private static  T _instance;
+        private static bool _applicationIsQuitting=false;
 
-        public  T Instance
+        protected Singleton()
+        {
+        }
+
+        public static  T Instance
         {
             get
             {
-                if (_instance==null && !_isBeingDestory)
+                if (_instance==null && !_applicationIsQuitting)
                 {
                     _instance = Create();
                 }
                 return _instance;
             }
         }
-        protected Singleton()
-        {
-            
-        }
 
-        protected virtual T Create()
+        private static T Create()
         {
-            var gameObject=new GameObject(typeof(T).Name,typeof(T));
-            return gameObject.GetComponent<T>();
+            var go=new GameObject(typeof(T).Name,typeof(T));
+            DontDestroyOnLoad(go);
+            return go.GetComponent<T>();
         }
 
         protected virtual void OnApplicationQuit()
         {
-            if (_instance!=null)
-            {
-                Destroy(_instance.gameObject);
-                _instance = null;
-            }
+            if (_instance == null) return;
+            Destroy(_instance.gameObject);
+            _instance = null;
         }
 
         protected virtual void OnDestory()
         {
-            _isBeingDestory = true;
+            _applicationIsQuitting = true;
         }
     }
 }
