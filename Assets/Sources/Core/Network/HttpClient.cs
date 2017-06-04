@@ -23,6 +23,7 @@ namespace Assets.Sources.Core.Network
             switch (method)
             {
                 case HttpMethod.Get:
+                    HttpTool.Instance.StartCoroutine(Get(url, responseHandler));
                     break;
                 case HttpMethod.Post:
                     break;
@@ -31,7 +32,7 @@ namespace Assets.Sources.Core.Network
 
         private IEnumerator Get(string url,Action<HttpResponse> responseHandler)
         {
-            using (var www = UnityWebRequest.Get("http://www.cnblogs.com"))
+            using (var www = UnityWebRequest.Get(url))
             {
                 yield return www.Send();
 
@@ -42,6 +43,8 @@ namespace Assets.Sources.Core.Network
                     StatusCode = www.responseCode,
                     Data = www.downloadHandler.text
                 };
+
+                responseHandler(response);
 
             }
         }

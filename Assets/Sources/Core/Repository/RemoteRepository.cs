@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Assets.Sources.Core.Infrastructure;
 using Assets.Sources.Core.Network;
+using Assets.Sources.Models;
 using UnityEngine;
 
 namespace Assets.Sources.Core.Repository
@@ -16,6 +17,7 @@ namespace Assets.Sources.Core.Repository
             {
                 var data = response.Data;
                 var result = JsonUtility.FromJson<R>(data);
+                Debug.Log(result.ToString());
             });
         }
 
@@ -38,5 +40,10 @@ namespace Assets.Sources.Core.Repository
         {
             throw new NotImplementedException();
         }
-    }  
+    }
+
+    public class UserRepository : RemoteRepository<Response, Response>
+    {
+        
+    }
 }

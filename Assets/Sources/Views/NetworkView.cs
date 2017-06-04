@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Assets.Sources.Core.Network;
+using Assets.Sources.Core.Repository;
+using Assets.Sources.Models;
 using uMVVM.Sources.Infrastructure;
 using UnityEngine;
 
@@ -12,10 +14,8 @@ namespace Assets.Sources.Views
     {
         void Start()
         {
-            HttpClient.Instance.Get((value) =>
-            {
-                Debug.Log(value);
-            });
+            var repository=new RemoteRepository<Badge,Response>();
+            repository.Get();
         }
     }
 }
