@@ -9,41 +9,37 @@ using UnityEngine;
 
 namespace Assets.Sources.Core.Repository
 {
-    public class RemoteRepository<T, R>:IRepository<T> where T : class, new() where R : class, new()
+    public class RemoteRepository<T, R> where T : class, new() where R : class, new()
     {
-        public void Get()
+        public void Get(string url,Action<R> onSuccess)
         {
-            HttpClient.Instance.SendAsync("http://localhost/Home/Get",HttpMethod.Get, (response) =>
+            HttpClient.Instance.SendAsync(url,HttpMethod.Get, (response) =>
             {
-                var data = response.Data;
-                var result = JsonUtility.FromJson<R>(data);
-                Debug.Log(result.ToString());
+                if (response.IsSuccess)
+                {
+                    var data = response.Data;
+                    var result = JsonUtility.FromJson<R>(data);
+                    Debug.Log(result.ToString());
+                    onSuccess(result);
+                }
+                //异常处理
             });
         }
 
-        public void Insert(T instance)
+        public void Post(string url,T instance,Action<R> onSuccess)
         {
-           
+            HttpClient.Instance.SendAsync(url, HttpMethod.Post, (response) =>
+            {
+                if (response.IsSuccess)
+                {
+                    var data = response.Data;
+                    var result = JsonUtility.FromJson<R>(data);
+                    Debug.Log(result.ToString());
+                    onSuccess(result);
+                }
+                //异常处理
+            });
         }
 
-        public void Delete(T instance)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(T instance)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<T> Select(Func<T, bool> func)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public class UserRepository : RemoteRepository<Response, Response>
-    {
-        
     }
 }

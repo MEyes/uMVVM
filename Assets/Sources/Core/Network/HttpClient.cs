@@ -20,6 +20,8 @@ namespace Assets.Sources.Core.Network
 
         public void SendAsync(string url, HttpMethod method, Action<HttpResponse> responseHandler)
         {
+            //传递一个Data进来
+            //反射
             switch (method)
             {
                 case HttpMethod.Get:
@@ -51,20 +53,20 @@ namespace Assets.Sources.Core.Network
 
         private IEnumerator Post(string url ,Action<HttpResponse> responseHandler)
         {
-            WWWForm form = new WWWForm();
-            form.AddField("myField", "myData");
+            List<IMultipartFormSection> formData = new List<IMultipartFormSection>();
+            formData.Add(new MultipartFormDataSection("field1=foo&field2=bar"));
+            formData.Add(new MultipartFormFileSection("my file data", "myfile.txt"));
 
-            using (var www = UnityWebRequest.Post("http://www.my-server.com/myform", form))
+            UnityWebRequest www = UnityWebRequest.Post("http://www.my-server.com/myform", formData);
+            yield return www.Send();
+
+            if (www.isError)
             {
-                yield return www.Send();
-
-                HttpResponse response = new HttpResponse
-                {
-                    IsSuccess = !www.isError,
-                    Error = www.error,
-                    StatusCode = www.responseCode,
-                    Data = www.downloadHandler.text
-                };
+                Debug.Log(www.error);
+            }
+            else
+            {
+                Debug.Log("Form upload complete!");
             }
         }
     }
