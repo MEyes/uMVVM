@@ -22,6 +22,11 @@ namespace Assets.Sources.Core.Network
             HttpTool.Instance.StartCoroutine(WaitUntilResponseReceived(action));
         }
 
+        public void Post()
+        {
+            HttpTool.Instance.StartCoroutine(Upload());
+        }
+
         private IEnumerator WaitUntilResponseReceived(Action<string> action)
         {
             using (UnityWebRequest www = UnityWebRequest.Get("http://www.cnblogs.com"))
@@ -40,6 +45,26 @@ namespace Assets.Sources.Core.Network
                     action(www.downloadHandler.text);
                     // Or retrieve results as binary data
                     byte[] results = www.downloadHandler.data;
+                }
+            }
+        }
+
+        private IEnumerator Upload()
+        {
+            WWWForm form = new WWWForm();
+            form.AddField("myField", "myData");
+
+            using (UnityWebRequest www = UnityWebRequest.Post("http://www.my-server.com/myform", form))
+            {
+                yield return www.Send();
+
+                if (www.isError)
+                {
+                    Debug.Log(www.error);
+                }
+                else
+                {
+                    Debug.Log("Form upload complete!");
                 }
             }
         }
