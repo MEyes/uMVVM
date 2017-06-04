@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Assets.Sources.Core.HTTP;
+using Assets.Sources.Core.Infrastructure;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -17,55 +18,50 @@ namespace Assets.Sources.Core.Network
             
         }
 
-        public void Get(Action<string> action )
+        public void SendAsync(string url, HttpMethod method, Action<HttpResponse> responseHandler)
         {
-            HttpTool.Instance.StartCoroutine(WaitUntilResponseReceived(action));
-        }
-
-        public void Post()
-        {
-            HttpTool.Instance.StartCoroutine(Upload());
-        }
-
-        private IEnumerator WaitUntilResponseReceived(Action<string> action)
-        {
-            using (UnityWebRequest www = UnityWebRequest.Get("http://www.cnblogs.com"))
+            switch (method)
             {
-                yield return www.Send();
-
-                if (www.isError)
-                {
-                    Debug.Log(www.error);
-                }
-                else
-                {
-                    // Show results as text
-                    //Debug.Log(www.downloadHandler.text);
-
-                    action(www.downloadHandler.text);
-                    // Or retrieve results as binary data
-                    byte[] results = www.downloadHandler.data;
-                }
+                case HttpMethod.Get:
+                    break;
+                case HttpMethod.Post:
+                    break;
             }
         }
 
-        private IEnumerator Upload()
+        private IEnumerator Get(string url,Action<HttpResponse> responseHandler)
+        {
+            using (var www = UnityWebRequest.Get("http://www.cnblogs.com"))
+            {
+                yield return www.Send();
+
+                HttpResponse response = new HttpResponse
+                {
+                    IsSuccess = !www.isError,
+                    Error = www.error,
+                    StatusCode = www.responseCode,
+                    Data = www.downloadHandler.text
+                };
+
+            }
+        }
+
+        private IEnumerator Post(string url ,Action<HttpResponse> responseHandler)
         {
             WWWForm form = new WWWForm();
             form.AddField("myField", "myData");
 
-            using (UnityWebRequest www = UnityWebRequest.Post("http://www.my-server.com/myform", form))
+            using (var www = UnityWebRequest.Post("http://www.my-server.com/myform", form))
             {
                 yield return www.Send();
 
-                if (www.isError)
+                HttpResponse response = new HttpResponse
                 {
-                    Debug.Log(www.error);
-                }
-                else
-                {
-                    Debug.Log("Form upload complete!");
-                }
+                    IsSuccess = !www.isError,
+                    Error = www.error,
+                    StatusCode = www.responseCode,
+                    Data = www.downloadHandler.text
+                };
             }
         }
     }

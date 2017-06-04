@@ -3,16 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Assets.Sources.Core.Infrastructure;
+using Assets.Sources.Core.Network;
+using UnityEngine;
 
 namespace Assets.Sources.Core.Repository
 {
-    public class RestRepository<T, R>:IRepository<T> where T : class, new() where R : class, new()
+    public class RemoteRepository<T, R>:IRepository<T> where T : class, new() where R : class, new()
     {
+        public void Get()
+        {
+            HttpClient.Instance.SendAsync("http://localhost/Home/Get",HttpMethod.Get, (response) =>
+            {
+                var data = response.Data;
+                var result = JsonUtility.FromJson<R>(data);
+            });
+        }
+
         public void Insert(T instance)
         {
-            //通过WWW像远程发送消息
-
-
+           
         }
 
         public void Delete(T instance)
