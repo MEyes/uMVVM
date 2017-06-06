@@ -27,7 +27,8 @@ namespace Assets.Sources.Core.Network
                 case HttpMethod.Get:
 				HttpTool.Instance.StartCoroutine(Get(httpRequest.Url,httpRequest.Parameters, responseHandler));
                     break;
-                case HttpMethod.Post:
+			case HttpMethod.Post:
+				HttpTool.Instance.StartCoroutine (Post(httpRequest.Url,httpRequest.Parameters,responseHandler));
                     break;
             }
         }
@@ -59,14 +60,15 @@ namespace Assets.Sources.Core.Network
 			UnityWebRequest www = UnityWebRequest.Post(url, formData);
             yield return www.Send();
 
-            if (www.isError)
-            {
-                Debug.Log(www.error);
-            }
-            else
-            {
-                Debug.Log("Form upload complete!");
-            }
+			HttpResponse response = new HttpResponse
+			{
+				IsSuccess = !www.isError,
+				Error = www.error,
+				StatusCode = www.responseCode,
+				Data = www.downloadHandler.text
+			};
+
+			responseHandler(response);
         }
     }
 }

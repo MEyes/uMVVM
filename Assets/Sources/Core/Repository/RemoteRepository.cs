@@ -41,7 +41,6 @@ namespace Assets.Sources.Core.Repository
         {
 			//reflactor
 			StringBuilder sb=new StringBuilder();
-			sb.Append ("?");
 			foreach (var property in instance.GetType().GetProperties()) {
 				var propertyName = property.Name;
 				var value = property.GetValue (instance, null);
