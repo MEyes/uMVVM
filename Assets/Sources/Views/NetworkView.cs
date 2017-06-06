@@ -15,9 +15,9 @@ namespace Assets.Sources.Views
         void Start()
         {
             var repository=new RemoteRepository<Badge,Response>();
-            repository.Get("localhost:80/Home/Get?token=abc");
+            //repository.Get("localhost:80/Home/Get?token=abc");
 
-            repository.Insert(new Badge());
+            //repository.Insert(new Badge());
         }
     }
 }

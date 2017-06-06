@@ -11,13 +11,24 @@ namespace Assets.Sources.Core.Repository
 {
     public class RemoteRepository<T, R> where T : class, new() where R : class, new()
     {
-        public void Get(string url,Action<R> onSuccess)
+		public void Get(string url,T instance,Action<R> onSuccess)
         {
-            HttpClient.Instance.SendAsync(url,HttpMethod.Get, (response) =>
+			//reflactor
+			StringBuilder sb=new StringBuilder();
+			sb.Append ("?");
+			foreach (var property in instance.GetType().GetProperties()) {
+				var propertyName = property.Name;
+				var value = property.GetValue (instance, null);
+				sb.Append (propertyName+"="+value+"&");
+
+			}
+
+			var httpRequest = new HttpRequest (){ Url = url, Method = HttpMethod.Get, Parameters = sb.ToString().TrimEnd('&') };
+			HttpClient.Instance.SendAsync(httpRequest, (httpResponse) =>
             {
-                if (response.IsSuccess)
+				if (httpResponse.IsSuccess)
                 {
-                    var data = response.Data;
+					var data = httpResponse.Data;
                     var result = JsonUtility.FromJson<R>(data);
                     Debug.Log(result.ToString());
                     onSuccess(result);
@@ -28,11 +39,22 @@ namespace Assets.Sources.Core.Repository
 
         public void Post(string url,T instance,Action<R> onSuccess)
         {
-            HttpClient.Instance.SendAsync(url, HttpMethod.Post, (response) =>
+			//reflactor
+			StringBuilder sb=new StringBuilder();
+			sb.Append ("?");
+			foreach (var property in instance.GetType().GetProperties()) {
+				var propertyName = property.Name;
+				var value = property.GetValue (instance, null);
+				sb.Append (propertyName+"="+value+"&");
+
+			}
+
+			var httpRequest = new HttpRequest (){ Url = url, Method = HttpMethod.Post, Parameters = sb.ToString().TrimEnd('&')  };
+			HttpClient.Instance.SendAsync(httpRequest, (httpResponse) =>
             {
-                if (response.IsSuccess)
+				if (httpResponse.IsSuccess)
                 {
-                    var data = response.Data;
+					var data = httpResponse.Data;
                     var result = JsonUtility.FromJson<R>(data);
                     Debug.Log(result.ToString());
                     onSuccess(result);
@@ -40,6 +62,8 @@ namespace Assets.Sources.Core.Repository
                 //异常处理
             });
         }
+
+
 
     }
 }

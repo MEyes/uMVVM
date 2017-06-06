@@ -18,23 +18,23 @@ namespace Assets.Sources.Core.Network
             
         }
 
-        public void SendAsync(string url, HttpMethod method, Action<HttpResponse> responseHandler)
+		public void SendAsync(HttpRequest httpRequest,Action<HttpResponse> responseHandler)
         {
             //传递一个Data进来
             //反射
-            switch (method)
+			switch (httpRequest.Method)
             {
                 case HttpMethod.Get:
-                    HttpTool.Instance.StartCoroutine(Get(url, responseHandler));
+				HttpTool.Instance.StartCoroutine(Get(httpRequest.Url,httpRequest.Parameters, responseHandler));
                     break;
                 case HttpMethod.Post:
                     break;
             }
         }
 
-        private IEnumerator Get(string url,Action<HttpResponse> responseHandler)
+		private IEnumerator Get(string url,string parameters,Action<HttpResponse> responseHandler)
         {
-            using (var www = UnityWebRequest.Get(url))
+			using (var www = UnityWebRequest.Get(url+parameters))
             {
                 yield return www.Send();
 
@@ -51,13 +51,12 @@ namespace Assets.Sources.Core.Network
             }
         }
 
-        private IEnumerator Post(string url ,Action<HttpResponse> responseHandler)
+		private IEnumerator Post(string url ,string parameters,Action<HttpResponse> responseHandler)
         {
             List<IMultipartFormSection> formData = new List<IMultipartFormSection>();
-            formData.Add(new MultipartFormDataSection("field1=foo&field2=bar"));
-            formData.Add(new MultipartFormFileSection("my file data", "myfile.txt"));
+			formData.Add(new MultipartFormDataSection(parameters));
 
-            UnityWebRequest www = UnityWebRequest.Post("http://www.my-server.com/myform", formData);
+			UnityWebRequest www = UnityWebRequest.Post(url, formData);
             yield return www.Send();
 
             if (www.isError)
