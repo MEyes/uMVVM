@@ -11,7 +11,7 @@ namespace Assets.Sources.Core.Infrastructure
 {
     public class SerializerXml : ISerializer
     {
-        public readonly static SerializerXml Instance = new SerializerXml();
+        public static readonly SerializerXml Instance = new SerializerXml();
 
         private readonly XmlWriterSettings _settingsForCompactOutput = new XmlWriterSettings()
         {
@@ -27,7 +27,7 @@ namespace Assets.Sources.Core.Infrastructure
             NewLineHandling = NewLineHandling.Replace
         };
 
-        public readonly static List<Type> ExtraTypes = new List<Type>();
+        public static readonly List<Type> ExtraTypes = new List<Type>();
 
         public string Serialize<T>(T obj, bool readableOutput = false) where T : class, new()
         {

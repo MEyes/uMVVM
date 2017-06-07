@@ -6,7 +6,7 @@ using System.Text;
 namespace Assets.Sources.Core.Infrastructure
 {
     [System.Serializable]
-    public class RemoteRepositoryResponse<T>
+    public class Response<T>
     {
         public List<T> Items;
         public T Item

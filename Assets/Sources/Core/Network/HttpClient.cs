@@ -38,7 +38,6 @@ namespace Assets.Sources.Core.Network
             using (var www = UnityWebRequest.Get(url + parameters))
             {
                 yield return www.Send();
-
                 var response = new HttpResponse
                 {
                     IsSuccess = !www.isError, Error = www.error, StatusCode = www.responseCode, Data = www.downloadHandler.text

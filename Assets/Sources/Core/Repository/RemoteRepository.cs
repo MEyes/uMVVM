@@ -10,6 +10,12 @@ namespace Assets.Sources.Core.Repository
 {
     public class RemoteRepository<T> where T : class, new() 
     {
+        public ISerializer Serializer { get; set; }
+
+        public RemoteRepository(ISerializer serializer=null)
+        {
+            Serializer = serializer ?? SerializerJson.Instance;
+        }
         public void Get<R>(string url, T instance, Action<R> onSuccess) where R : class, new()
         {
             var parameters= HttpUtility.BuildParameters(instance, new StringBuilder("?"));
@@ -23,7 +29,7 @@ namespace Assets.Sources.Core.Repository
             {
                 if (httpResponse.IsSuccess)
                 {
-                    onSuccess(JsonUtility.FromJson<R>(httpResponse.Data));
+                    onSuccess(Serializer.Deserialize<R>(httpResponse.Data));
                 }
                 //TODO:异常处理
             });
@@ -43,7 +49,7 @@ namespace Assets.Sources.Core.Repository
                 if (httpResponse.IsSuccess)
                 {
                     //TODO:判断是否有Data
-                    onSuccess(JsonUtility.FromJson<R>(httpResponse.Data));
+                    onSuccess(Serializer.Deserialize<R>(httpResponse.Data));
                 }
             });
         }
