@@ -20,8 +20,6 @@ namespace Assets.Sources.Core.Network
 
 		public void SendAsync(HttpRequest httpRequest,Action<HttpResponse> responseHandler)
         {
-            //传递一个Data进来
-            //反射
 			switch (httpRequest.Method)
             {
                 case HttpMethod.Get:
@@ -30,45 +28,43 @@ namespace Assets.Sources.Core.Network
 			case HttpMethod.Post:
 				HttpTool.Instance.StartCoroutine (Post(httpRequest.Url,httpRequest.Parameters,responseHandler));
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 
-		private IEnumerator Get(string url,string parameters,Action<HttpResponse> responseHandler)
+        private static IEnumerator Get(string url, string parameters, Action<HttpResponse> onComplete)
         {
-			using (var www = UnityWebRequest.Get(url+parameters))
+            using (var www = UnityWebRequest.Get(url + parameters))
             {
                 yield return www.Send();
 
-                HttpResponse response = new HttpResponse
+                var response = new HttpResponse
                 {
-                    IsSuccess = !www.isError,
-                    Error = www.error,
-                    StatusCode = www.responseCode,
-                    Data = www.downloadHandler.text
+                    IsSuccess = !www.isError, Error = www.error, StatusCode = www.responseCode, Data = www.downloadHandler.text
                 };
 
-                responseHandler(response);
-
+                onComplete(response);
             }
         }
 
-		private IEnumerator Post(string url ,string parameters,Action<HttpResponse> responseHandler)
+        private static IEnumerator Post(string url, string parameters, Action<HttpResponse> onComplete)
         {
-            List<IMultipartFormSection> formData = new List<IMultipartFormSection>();
-			formData.Add(new MultipartFormDataSection(parameters));
+            var formData = new List<IMultipartFormSection>
+            {
+                new MultipartFormDataSection(parameters)
+            };
 
-			UnityWebRequest www = UnityWebRequest.Post(url, formData);
-            yield return www.Send();
+            using (var www = UnityWebRequest.Post(url, formData))
+            {
+                yield return www.Send();
+                var response = new HttpResponse
+                {
+                    IsSuccess = !www.isError, Error = www.error, StatusCode = www.responseCode, Data = www.downloadHandler.text
+                };
 
-			HttpResponse response = new HttpResponse
-			{
-				IsSuccess = !www.isError,
-				Error = www.error,
-				StatusCode = www.responseCode,
-				Data = www.downloadHandler.text
-			};
-
-			responseHandler(response);
+                onComplete(response);
+            }
         }
     }
 }

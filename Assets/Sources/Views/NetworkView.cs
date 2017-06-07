@@ -14,15 +14,15 @@ namespace Assets.Sources.Views
     {
         void Start()
         {
-            var repository=new RemoteRepository<Identity,User>();
+            var repository=new RemoteRepository<Identity>();
 
-//			repository.Get ("http://192.168.199.233/User/Get", new Identity (), (response) => {
-//				
-//			});
-				
-			repository.Post ("http://192.168.199.233/User/Post", new Identity (){Token="abc",DeviceId="def"}, (response) => {
-				Debug.Log(response.Name);
+			repository.Get<ResponseWrapper<User>> ("http://192.168.199.233/User/Get", new Identity (), (response) => {
+				Debug.Log(response.Items[0].Address.Name);
 			});
+				
+//			repository.Post ("http://192.168.199.233/User/Post", new Identity (){Token="abc",DeviceId="def"}, (response) => {
+//				Debug.Log(response.Name);
+//			});
         }
     }
 }
