@@ -16,7 +16,7 @@ namespace Assets.Sources.Views
         {
             var repository=new RemoteRepository<Identity>();
 
-			repository.Get<ResponseWrapper<User>> ("http://192.168.199.233/User/Get", new Identity (), (response) => {
+			repository.Get<RemoteRepositoryResponse<User>> ("http://192.168.199.233/User/Get", new Identity (), (response) => {
 				Debug.Log(response.Items[0].Address.Name);
 			});
 				

@@ -8,72 +8,43 @@ using UnityEngine;
 
 namespace Assets.Sources.Core.Repository
 {
-    [System.Serializable]
-    public class ResponseWrapper<T>
-    {
-        public List<T> Items;
-    }
-
     public class RemoteRepository<T> where T : class, new() 
     {
         public void Get<R>(string url, T instance, Action<R> onSuccess) where R : class, new()
         {
-            //reflactor
-            var sb = new StringBuilder();
-            sb.Append("?");
-            foreach (var property in instance.GetType().GetProperties())
-            {
-                var propertyName = property.Name;
-                var value = property.GetValue(instance, null);
-                sb.Append(propertyName + "=" + value + "&");
-            }
-
+            var parameters= HttpUtility.BuildParameters(instance, new StringBuilder("?"));
             var httpRequest = new HttpRequest
             {
                 Url = url,
                 Method = HttpMethod.Get,
-                Parameters = sb.ToString().TrimEnd('&')
+                Parameters = parameters
             };
             HttpClient.Instance.SendAsync(httpRequest, httpResponse =>
             {
                 if (httpResponse.IsSuccess)
                 {
-                    var data = httpResponse.Data;
-                    var result = JsonUtility.FromJson<R>(data);
-                    onSuccess(result);
+                    onSuccess(JsonUtility.FromJson<R>(httpResponse.Data));
                 }
-                //异常处理
+                //TODO:异常处理
             });
         }
 
         public void Post<R>(string url, T instance, Action<R> onSuccess) where R : class, new()
         {
-            //reflactor
-            var sb = new StringBuilder();
-            foreach (var property in instance.GetType().GetProperties())
-            {
-                var propertyName = property.Name;
-                var value = property.GetValue(instance, null);
-                sb.Append(propertyName + "=" + value + "&");
-            }
-
+            var parameters = HttpUtility.BuildParameters(instance, new StringBuilder());
             var httpRequest = new HttpRequest
             {
                 Url = url,
                 Method = HttpMethod.Post,
-                Parameters = sb.ToString().TrimEnd('&')
+                Parameters = parameters
             };
-
             HttpClient.Instance.SendAsync(httpRequest, httpResponse =>
             {
                 if (httpResponse.IsSuccess)
                 {
-                    var data = httpResponse.Data;
-                    var result = JsonUtility.FromJson<R>(data);
-                    Debug.Log(result.ToString());
-                    onSuccess(result);
+                    //TODO:判断是否有Data
+                    onSuccess(JsonUtility.FromJson<R>(httpResponse.Data));
                 }
-                //异常处理
             });
         }
     }
