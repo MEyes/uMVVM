@@ -21,10 +21,13 @@ namespace Assets.Sources.Views
         {
             var repository=new RemoteRepository<Identity>();
             //Loding
-			repository.Get<Response<User>> ("http://192.168.199.233/User/List", new Identity (), (response) => {
-				Debug.Log(response.Items[0].Address.Name);
-			    stop = true;
-			});
+            repository.Get<Response<User>>("http://192.168.199.233/User/List",
+                new Identity() {DeviceId = SystemInfo.deviceUniqueIdentifier, Token = TokenHelper.Create()},
+                (response) =>
+                {
+                    Debug.Log(response.Items[0].Address.Name);
+                    stop = true;
+                });
         }
 
         void Update()
