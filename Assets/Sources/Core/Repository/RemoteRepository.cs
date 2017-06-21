@@ -53,5 +53,10 @@ namespace Assets.Sources.Core.Repository
                 }
             });
         }
+
+        public void Test()
+        {
+            Debug.Log("Hello...");
+        }
     }
 }
