@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Assets.Sources.Core.Log
 {
-    class LogStrategy
+    public class LogStrategy
     {
     }
 }

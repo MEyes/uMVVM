@@ -5,11 +5,11 @@ using System.Text;
 
 namespace Assets.Sources.Core.Log
 {
-    public class LogFactory
+    public class DbWriter:IContentWriter
     {
-        public LogStrategy CreateLog()
+        public void Write(string text)
         {
-            return null;
+            throw new NotImplementedException();
         }
     }
 }

@@ -5,11 +5,8 @@ using System.Text;
 
 namespace Assets.Sources.Core.Log
 {
-    public class LogFactory
+    public interface IContentWriter
     {
-        public LogStrategy CreateLog()
-        {
-            return null;
-        }
+        void Write(string text);
     }
 }
