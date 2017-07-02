@@ -7,9 +7,16 @@ namespace Assets.Sources.Core.Log
 {
     public class LogFactory
     {
-        public static LogStrategy CreateLog()
+        public static LogFactory Instance=new LogFactory();
+        public Dictionary<string,LogStrategy> Strategies=new Dictionary<string, LogStrategy>()
         {
-            return new NullLogStrategy();
+            {typeof(ConsoleLogStrategy).ToString(),new ConsoleLogStrategy() },
+            {typeof(FileLogStrategy).ToString(),new FileLogStrategy() },
+            {typeof(DbLogStrategy).ToString(),new DbLogStrategy() }
+        }; 
+        public LogStrategy Resolve<T>() where T:LogStrategy
+        {
+            return Strategies[typeof (T).ToString()];
         }
     }
 }

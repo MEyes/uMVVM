@@ -5,9 +5,9 @@ using System.Text;
 
 namespace Assets.Sources.Core.Log
 {
-    public class NullLogStrategy:LogStrategy
+    public class FileContentWriter:IContentWriter
     {
-        protected override bool DoLog(string logItem)
+        public void Write(string content)
         {
             throw new NotImplementedException();
         }

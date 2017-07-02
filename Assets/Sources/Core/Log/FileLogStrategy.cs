@@ -7,9 +7,12 @@ namespace Assets.Sources.Core.Log
 {
     public class FileLogStrategy:LogStrategy
     {
-        protected override bool DoLog(string logItem)
+
+        protected override void RecordMessage(string message)
         {
-            
+            throw new NotImplementedException();
         }
+
+        protected override IContentWriter Writer { get; set; }
     }
 }
