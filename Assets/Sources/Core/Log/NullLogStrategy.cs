@@ -5,11 +5,11 @@ using System.Text;
 
 namespace Assets.Sources.Core.Log
 {
-    public class LogFactory
+    public class NullLogStrategy:LogStrategy
     {
-        public static LogStrategy CreateLog()
+        protected override bool DoLog(string logItem)
         {
-            return new NullLogStrategy();
+            throw new NotImplementedException();
         }
     }
 }

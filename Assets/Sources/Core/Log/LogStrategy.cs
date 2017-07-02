@@ -5,7 +5,13 @@ using System.Text;
 
 namespace Assets.Sources.Core.Log
 {
-    public class LogStrategy
+    public abstract class LogStrategy
     {
+        protected abstract bool DoLog(string logItem);
+
+        public bool Log(string app,string key,string cause)
+        {
+            return DoLog(app + " " + key + " " + cause);
+        }
     }
 }
