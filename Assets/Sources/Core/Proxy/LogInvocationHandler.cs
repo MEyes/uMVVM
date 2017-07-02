@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Assets.Sources.Core.Log;
 using UnityEngine;
 
 namespace Assets.Sources.Core.Proxy
@@ -11,7 +12,7 @@ namespace Assets.Sources.Core.Proxy
     {
         public void PreProcess()
         {
-            Debug.Log("Process");
+            LogFactory.Instance.Resolve<ConsoleLogStrategy>().Log("Pre Process");
         }
 
         public object Invoke(object target, MethodInfo method, object[] args)
@@ -24,7 +25,7 @@ namespace Assets.Sources.Core.Proxy
 
         public void PostProcess()
         {
-           Debug.Log("Post");
+            LogFactory.Instance.Resolve<ConsoleLogStrategy>().Log("Post Process");
         }
     }
 }
