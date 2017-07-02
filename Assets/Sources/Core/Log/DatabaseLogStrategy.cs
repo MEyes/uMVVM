@@ -2,7 +2,11 @@
 {
     public class DatabaseLogStrategy : LogStrategy
     {
-        protected override void SetContentWriter()
+        public DatabaseLogStrategy()
+        {
+            SetContentWriter();
+        }
+        protected sealed override void SetContentWriter()
         {
             Writer = new DatabaseContentWriter();
         }

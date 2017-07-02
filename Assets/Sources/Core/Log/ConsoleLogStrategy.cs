@@ -8,7 +8,11 @@ namespace Assets.Sources.Core.Log
 {
     public class ConsoleLogStrategy:LogStrategy
     {
-        protected override void SetContentWriter()
+        public ConsoleLogStrategy()
+        {
+            SetContentWriter();
+        }
+        protected sealed override void SetContentWriter()
         {
            Writer=new ConsoleContentWriter();
         }

@@ -19,15 +19,16 @@ namespace Assets.Sources.Core.Log
         /// <summary>
         ///     公共的API
         /// </summary>
-        /// <param name="message"></param>
-        /// <returns></returns>
-        public void Log(string message)
+        public void Log(string message,bool verbose=false)
         {
-            //公共方法
-            RecordDateTime();
-            RecordDeviceModel();
-            RecordDeviceName();
-            RecordOperatingSystem();
+            if (verbose)
+            {
+                //公共方法
+                RecordDateTime();
+                RecordDeviceModel();
+                RecordDeviceName();
+                RecordOperatingSystem();
+            }
             //抽象方法，交由子类实现
             RecordMessage(_messageBuilder.AppendLine(string.Format("Message:{0}", message)).ToString());
         }

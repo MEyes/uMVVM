@@ -10,7 +10,7 @@ namespace Assets.Sources.Core.Log
     {
         public void Write(string message)
         {
-            Debug.Log("Console Log!");
+            Debug.Log("Console Log!:"+message);
         }
     }
 }

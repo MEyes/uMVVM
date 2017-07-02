@@ -11,7 +11,7 @@ namespace Assets.Sources.Core.Log
         public void Write(string message)
         {
             //IO
-            Debug.Log("File Log!");
+            Debug.Log("File Log!：{0}"+message);
         }
     }
 }

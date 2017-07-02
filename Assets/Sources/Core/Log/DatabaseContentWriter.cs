@@ -10,7 +10,7 @@ namespace Assets.Sources.Core.Log
     {
         public void Write(string message)
         {
-            Debug.Log("Database Log!");
+            Debug.Log("Database Log!:"+message);
         }
     }
 }
