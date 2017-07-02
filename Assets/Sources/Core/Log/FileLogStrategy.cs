@@ -7,12 +7,14 @@ namespace Assets.Sources.Core.Log
 {
     public class FileLogStrategy:LogStrategy
     {
-
+        protected override void SetContentWriter()
+        {
+            Writer = new FileContentWriter(); 
+        }
         protected override void RecordMessage(string message)
         {
-            throw new NotImplementedException();
+            Writer.Write(message);
         }
 
-        protected override IContentWriter Writer { get; set; }
     }
 }

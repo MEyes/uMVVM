@@ -6,12 +6,11 @@ using UnityEngine;
 
 namespace Assets.Sources.Core.Log
 {
-    public class FileContentWriter:IContentWriter
+    public class ConsoleContentWriter:IContentWriter
     {
         public void Write(string message)
         {
-            //IO
-            Debug.Log("File Log!");
+            Debug.Log("Console Log!");
         }
     }
 }

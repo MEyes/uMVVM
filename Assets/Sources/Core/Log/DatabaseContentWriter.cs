@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace Assets.Sources.Core.Log
 {
-    public class DbContentWriter : IContentWriter
+    public class DatabaseContentWriter : IContentWriter
     {
-        public void Write(string content)
+        public void Write(string message)
         {
-            throw new NotImplementedException();
+            Debug.Log("Database Log!");
         }
     }
 }

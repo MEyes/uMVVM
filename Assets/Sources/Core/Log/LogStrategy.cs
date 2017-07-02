@@ -7,11 +7,14 @@ namespace Assets.Sources.Core.Log
     public abstract class LogStrategy
     {
         private readonly StringBuilder _messageBuilder=new StringBuilder();
+        protected IContentWriter Writer { get; set; }
+
         /// <summary>
         ///     模板方法
         /// </summary>
         protected abstract void RecordMessage(string message);
-        protected abstract IContentWriter Writer { get; set; }
+
+        protected abstract void SetContentWriter();
 
         /// <summary>
         ///     公共的API

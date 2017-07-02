@@ -12,7 +12,7 @@ namespace Assets.Sources.Core.Log
         {
             {typeof(ConsoleLogStrategy).ToString(),new ConsoleLogStrategy() },
             {typeof(FileLogStrategy).ToString(),new FileLogStrategy() },
-            {typeof(DbLogStrategy).ToString(),new DbLogStrategy() }
+            {typeof(DatabaseLogStrategy).ToString(),new DatabaseLogStrategy() }
         }; 
         public LogStrategy Resolve<T>() where T:LogStrategy
         {
