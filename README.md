@@ -1,5 +1,5 @@
 
-**Thinking in unity 3D framework designing,the main content includes several parts:**
+**Architecting Application for Unity,the main content includes several parts:**
 
 - 1).Designing view&viewmodel
 - 2).Using message mediator communication between viewmodels
@@ -8,5 +8,9 @@
 - 5).Sharing data between viewmodels
 - 6).Building singleton,transient & pool factory
 - 7).Using service locator & Repository pattern
+- 8).Async Thread work with croutine
+- 9).Lightweight network layer
+- 10).Simple AOP implement
+- 11).using log strategy
 
-The wiki page link:https://github.com/MEyes/uMVVM/wiki
+The wiki page link: http://www.cnblogs.com/OceanEyes/category/972425.html
