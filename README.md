@@ -9,7 +9,7 @@
 - 6).Building singleton,transient & pool factory
 - 7).Using service locator & Repository pattern
 - 8).Async Thread work with croutine
-- 9).Lightweight network layer
+- 9).Building lightweight network layer
 - 10).Simple AOP implement
 - 11).using log strategy
 
